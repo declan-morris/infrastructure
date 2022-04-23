@@ -1,0 +1,152 @@
+templates:
+  Collection:
+    optional:
+      - collection
+      - movie
+    tmdb_collection_details: <<collection>>
+    tmdb_movie: <<movie>>
+    sync_mode: sync
+    collection_order: release
+
+collections:
+
+#https://github.com/meisnate12/Plex-Meta-Manager-Configs/blob/67f09923877696e3d75ffd565a752641f64b952c/twhiting9275/starwars.yml
+  "Star Wars: by timeline":
+    template: {name: Collection, movie: "1893, 1894, 12180, 1895, 11, 1891, 1892, 140607, 181808, 181812"}
+    summary: This is a collection of main star wars movies, plus The Clone Wars animated movie, arranged by when events took place   
+    collection_order: alpha
+    url_poster: https://www.themoviedb.org/t/p/original/jGNtfNeFRmJBIwL1exFteZhedOr.jpg
+
+  James Bond:
+    template: {name: Collection, movie: "36557, 10764, 37724, 206647, 370172"}
+    summary: This is a collection of latest James Bond movies   
+    collection_order: alpha
+    url_poster: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/HORpg5CSkmeQlAolx3bKMrKgfi.jpg
+
+#https://github.com/meisnate12/Plex-Meta-Manager-Configs/blob/b0a1ef4904dd435e8464c114284af55f847c56cf/meisnate12/Movies.yml
+  28 Days/Weeks Later:
+    template: {name: Collection, collection: 1565}
+    name_mapping: 28 Days-Weeks Later
+  Anchorman:
+    template: {name: Collection, collection: 93791}
+  Ant-Man:
+    template: {name: Collection, collection: 422834}
+  The Avengers:
+    template: {name: Collection, collection: 86311}
+  Borat:
+    template: {name: Collection, collection: 747168}
+  Captain America:
+    template: {name: Collection, collection: 131295}
+  Coming to America:
+    template: {name: Collection, collection: 647077}
+  The Chronicles of Riddick:
+    template: {name: Collection, collection: 2794}
+  Cloverfield:
+    template: {name: Collection}
+    imdb_list: https://www.imdb.com/list/ls021933730/
+    summary: Cloverfield is an American science fiction anthology film series and media franchise created and produced by J. J. Abrams consisting of three films, viral marketing websites linking the films together, and a tie-in manga to the first film titled Cloverfield/Kishin (2008), all set in a shared fictional universe referred to as the "Cloververse". The franchise as a whole deals with creatures from other dimensions attacking Earth throughout various decades, all as a repercussion of an experiment by an astronaut team aboard the Cloverfield Station in outer-space. Each film depicts the reality-altering effects of their study, which was meant to find a new energy source replacing the planet's depleted resources, only to open portals for assault from various beasts from deep space.
+  The Dark Knight:
+    template: {name: Collection, collection: 263}
+  Deadpool:
+    template: {name: Collection, collection: 448150, movie: 567604}
+  Die Hard:
+    template: {name: Collection, collection: 1570}
+  Godzilla:
+    template: {name: Collection, collection: 535313}
+  Guardians of the Galaxy:
+    template: {name: Collection, collection: 284433}
+  The Hangover:
+    template: {name: Collection, collection: 86119}
+  Hannibal Lecter:
+    template: {name: Collection, collection: 9743, movie: 11454}
+  Harry Potter:
+    template: {name: Collection, collection: 1241}
+  ... Has Fallen:
+    template: {name: Collection, collection: 386534}
+    name_mapping: Has Fallen
+  Hunger Games:
+    template: {name: Collection, collection: 131635}
+  The Hobbit:
+    template: {name: Collection, collection: 121938}
+  Iron Man:
+    template: {name: Collection, collection: 131292}
+  It:
+    template: {name: Collection, collection: 477962}
+  John Wick:
+    template: {name: Collection, collection: 404609}
+  Jump Street:
+    template: {name: Collection, collection: 212562}
+  Kill Bill:
+    template: {name: Collection, collection: 2883}
+  Kingsman:
+    template: {name: Collection, collection: 391860}
+  The Lord of the Rings:
+    template: {name: Collection, collection: 119}
+  The Matrix:
+    template: {name: Collection, collection: 2344}
+  Pacific Rim:
+    template: {name: Collection, collection: 363369}
+  Pirates of the Caribbean:
+    template: {name: Collection, collection: 295}
+  Planet of the Apes:
+    template: {name: Collection, collection: 173710}
+  Sherlock Holmes:
+    template: {name: Collection, collection: 102322}
+  Spider-Man (Avengers):
+    template: {name: Collection, collection: 531241}
+  Star Trek:
+    template: {name: Collection, collection: 115575}
+  Super Troopers:
+    template: {name: Collection, collection: 449462}
+  Thor:
+    template: {name: Collection, collection: 131296}
+  Unbreakable:
+    template: {name: Collection}
+    imdb_list: https://www.imdb.com/list/ls022101006/
+    summary: The Unbreakable trilogy, officially known as the Eastrail 177 Trilogy, is an American superhero thriller and psychological horror film series. The films were written, produced, and directed by M. Night Shyamalan. The trilogy consists of Unbreakable (2000), Split (2016), and Glass (2019).
+  Wonder Woman:
+    template: {name: Collection, collection: 468552}
+  X-Men:
+    template: {name: Collection, collection: "748, 453993, 448150", movie: 567604}
+
+
+metadata:
+  "Star Wars: Episode I - The Phantom Menace":
+    sort_title: Star Wars 1
+    file_poster: /config/posters/StarWars/1 The Phantom Menace.png
+
+  "Star Wars: Episode II - Attack of the Clones":
+    sort_title: Star wars 2
+    file_poster: /config/posters/StarWars/2 Attack of the Clones.png
+
+  "Star Wars: The Clone Wars":
+    sort_title: Star Wars 3
+    # file_poster: /config/posters/StarWars/???
+
+  "Star Wars: Episode III - Revenge of the Sith":
+    sort_title: Star Wars 4
+    file_poster: /config/posters/StarWars/3.0 Revenge of the Sith.png
+
+  Star Wars:
+    sort_title: Star Wars 5
+    file_poster: /config/posters/StarWars/4 New Hope.png
+
+  The Empire Strikes Back:
+    sort_title: Star Wars 6    
+    file_poster: /config/posters/StarWars/5 The Empire Strikes Back.png
+
+  Return of the Jedi:
+    sort_title: Star Wars 7    
+    file_poster: /config/posters/StarWars/6 Return of the Jedi.png
+
+  "Star Wars: The Force Awakens":    
+    sort_title: Star Wars 8
+    file_poster: /config/posters/StarWars/7 The Force Awakens.png
+
+  "Star Wars: The Last Jedi":    
+    sort_title: Star Wars 9
+    file_poster: /config/posters/StarWars/8 The Last Jedi.png
+
+  Star Wars Episode IX The Rise Of Skywalker:
+    sort_title: Star Wars 10
+    file_poster: /config/posters/StarWars/9 The Rise of Skywalker.png

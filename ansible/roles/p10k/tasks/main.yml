@@ -1,0 +1,7 @@
+---
+# tasks file for p10k
+
+- name: install p10k config
+  copy:
+    src: files/.p10k.zsh
+    dest: /home/dtm/.p10k.zsh

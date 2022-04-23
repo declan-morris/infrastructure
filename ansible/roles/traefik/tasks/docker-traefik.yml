@@ -1,0 +1,29 @@
+- name: Creates docker directory for traefik
+  file:
+    path: /home/dtm/docker/compose-traefik
+    state: directory
+
+- name: Copy compose source templates for traefik
+  template:
+    src: files/docker/traefik/docker-compose.yml
+    dest: /home/dtm/docker/compose-traefik/docker-compose.yml
+    
+- name: Copy env source templates for traefik
+  template:
+    src: files/docker/traefik/.env
+    dest: /home/dtm/docker/compose-traefik/.env
+
+- name: Create config directory
+  file:
+    path: /home/dtm/docker/traefik/
+    state: directory
+
+- name: Install config
+  template:
+    src: files/traefik/traefik.yml
+    dest: /home/dtm/docker/traefik/traefik.yml
+
+- name: Create and start traefik services 
+  docker_compose:
+    project_src: /home/dtm/docker/compose-traefik
+  register: output

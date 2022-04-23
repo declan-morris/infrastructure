@@ -1,0 +1,13 @@
+version : "3.8"
+services:
+
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${DOCKERDIR}/traefik:/etc/traefik
+    environment:
+      - CF_DNS_API_TOKEN={{ cloudFlare.APIToken }}
+    restart: unless-stopped

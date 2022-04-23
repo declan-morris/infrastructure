@@ -1,0 +1,38 @@
+entryPoints:
+  web:
+    address: :80
+
+  web-secure:
+    address: :443
+    http:
+      tls:
+        certresolver: le
+        domains:
+          - main: soleria.net
+            sans: "*.soleria.net"
+
+providers:
+  docker:
+    endpoint: unix:///var/run/docker.sock
+    watch: true
+    exposedByDefault: false
+
+api:
+  dashboard: true
+  insecure: true
+  debug: true
+
+serversTransport:
+  insecureSkipVerify: true
+
+certificatesResolvers:
+  le:
+    acme:
+      email: {{ cloudFlare.Email }}
+      storage: /etc/traefik/acme.json
+      dnsChallenge:
+        provider: cloudflare
+        delayBeforeCheck: 0
+        resolvers:
+          - 1.1.1.1:53
+          - 1.0.0.1:53

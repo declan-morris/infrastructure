@@ -1,0 +1,22 @@
+# - name: install samba
+#   apt:
+#     pkg: samba
+#     state: present
+#   notify:
+#     - start samba service
+
+# - name: install samba config on soleria
+#   template:
+#     src: files/etc/samba/smb.conf
+#     dest: /etc/samba/smb.conf
+#     owner: root
+#     group: root
+#   notify:
+#     - restart samba service
+
+# stopped this as I'm not sure if it's breaking most the webserver
+# - name: stop samba service
+#   service:
+#     name: smbd
+#     state: stopped
+#   become: true

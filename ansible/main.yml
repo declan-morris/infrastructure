@@ -1,0 +1,19 @@
+---
+
+- name: Configure pve
+  include: group.pve.yml
+
+- name: Configure ubuntuVM
+  include: group.ubuntuVM.yml
+
+- name: Configure soleria
+  include: group.soleria.yml
+
+- name: Configure aurora
+  include: group.aurora.yml
+
+- name: Configure saturn
+  include: group.saturn.yml
+
+#- hosts: trantor
+  # this will have "centralised stuff, e.g. organizr and maybe stuff like reverse proxy etc?"

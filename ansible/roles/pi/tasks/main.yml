@@ -1,0 +1,13 @@
+---
+
+- name: ensure dtm present
+  user:
+    name: dtm
+  become: true
+
+- name: import github ssh keys
+  authorized_key:  
+    user: "dtm"
+    state: present
+    key: https://github.com/declan-morris.keys
+  become: true

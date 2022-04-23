@@ -1,0 +1,4 @@
+---
+
+- name: Metrics docker compose
+  include: docker-metrics.yml

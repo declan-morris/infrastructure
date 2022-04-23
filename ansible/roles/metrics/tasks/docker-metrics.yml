@@ -1,0 +1,31 @@
+- name: Creates docker directory for metrics
+  file:
+    path: /home/dtm/docker/compose-metrics
+    state: directory
+
+- name: Copy compose source templates for metrics
+  template:
+    src: files/docker/metrics/docker-compose.yml
+    dest: /home/dtm/docker/compose-metrics/docker-compose.yml
+    
+- name: Copy env source templates for metrics
+  template:
+    src: files/docker/metrics/.env
+    dest: /home/dtm/docker/compose-metrics/.env
+
+- name: Install requests python package
+  pip:
+    name: requests
+
+- name: Install docker python package
+  pip:
+    name: docker
+
+- name: Install docker-compose python package
+  pip:
+    name: docker-compose
+
+- name: Create and start metrics services 
+  docker_compose:
+    project_src: /home/dtm/docker/compose-metrics
+  register: output

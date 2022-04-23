@@ -1,0 +1,5 @@
+---
+
+- hosts: aurora
+  roles:
+    - role: aurora

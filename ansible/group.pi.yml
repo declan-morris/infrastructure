@@ -1,0 +1,9 @@
+---
+
+
+- hosts: pi
+  roles:
+    - role: pi
+    - role: geerlingguy.security
+      become: true
+    # - role: geerlingguy.docker

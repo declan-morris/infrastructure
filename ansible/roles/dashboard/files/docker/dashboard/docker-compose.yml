@@ -1,0 +1,16 @@
+version : "3.8"
+services:
+
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERDIR}/heimdall:/config
+    ports:
+      - 80:80
+      - 443:443
+    restart: unless-stopped

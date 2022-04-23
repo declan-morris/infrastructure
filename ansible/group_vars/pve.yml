@@ -1,0 +1,67 @@
+# # grog.package
+package_list:
+  - name: sudo #debian doesn't come with sudo
+  - name: lshw
+  - name: hddtemp
+  - name: lm-sensors
+  - name: python3
+  - name: python3-pip
+
+# telegraf
+telegraf_influxdb_urls:
+  - http://soleria:8086
+
+remove_nag: True
+remove_enterprise_repo: True
+add_no_subscription_repo: True
+
+# output
+telegraf_influxdb_v2: true
+telegraf_influxdb_token: "{{ influx.token }}"
+telegraf_influxdb_organization: "{{ influx.organisation }}"
+telegraf_influxdb_bucket: "{{ influx.bucket }}"
+
+telegraf_plugins_base:
+  - name: mem
+  - name: system
+  - name: cpu
+    options:
+      percpu: "true"
+      totalcpu: "true"
+      collect_cpu_time: "false"
+      report_active: "false"
+  - name: diskio
+  - name: kernel
+  - name: processes
+  - name: hddtemp
+  - name: sensors
+  - name: ping
+    options:
+      urls: ["1.1.1.1"]
+  - name: net_response
+    options:
+      protocol: "tcp"
+      address: "soleria:7878"
+  - name: net_response
+    options:
+      protocol: "tcp"
+      address: "soleria:8989"
+
+
+## oh my zsh theme
+oh_my_zsh_install: yes
+zsh_plugin: ohmyzsh
+configureZSH: true
+
+users:
+  - username: dtm
+    oh_my_zsh:
+      plugins:
+        - git
+        - docker
+        - docker-compose
+        - thefuck
+        - aliases
+
+nfs_exports:
+  - "/storage/data *(rw,sync,no_root_squash)" 

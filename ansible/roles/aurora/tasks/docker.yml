@@ -1,0 +1,71 @@
+- name: Install docker python package
+  pip:
+    name: docker
+
+- name: Install docker-compose python package
+  pip:
+    name: docker-compose
+
+- name: Install docker python package - required for ansible docker compose
+  pip:
+    name: docker
+
+- name: Creates docker directory
+  file:
+    path: /home/dtm/docker
+    state: directory
+
+- name: Copy compose source templates
+  template:
+    src: files/docker/docker-compose.yml
+    dest: /home/dtm/docker/docker-compose.yml
+
+- name: Copy env source templates
+  template:
+    src: files/docker/.env
+    dest: /home/dtm/docker/.env
+
+- name: Ensure DNSStubListener is set to no
+  lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#DNSStubListener=yes'
+    line: DNSStubListener=no
+  become: true
+
+- name: check stat of path
+  stat:
+    path: /etc/resolv.conf
+  register: link
+
+- name: set vars for deletion
+  debug:
+    msg: "does path /etc/resolv.conf exist? {{link.stat.exists}} and is it link {{link.stat.islnk|default(false)}}"
+
+- name: remove symlink
+  file:
+    path: /etc/resolv.conf
+    state: absent
+  when: link.stat.islnk is defined and not link.stat.islnk
+  become: true
+
+- name: Create a symbolic link
+  file:
+    src: /run/systemd/resolve/resolv.conf
+    dest: /etc/resolv.conf
+    state: link
+  when: link.stat.islnk is defined and not link.stat.islnk
+  register: newSystemdConfig
+  become: true
+
+- name: Restart DNS service on ubuntu
+  become: true
+  ansible.builtin.systemd:
+    name: systemd-resolved.service
+    state: restarted
+    enabled: yes
+  when: newSystemdConfig is changed
+
+- name: Create and start network services
+  community.docker.docker_compose:
+    project_src: /home/dtm/docker
+  register: output

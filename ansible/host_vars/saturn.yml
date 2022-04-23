@@ -1,0 +1,25 @@
+## oh my zsh theme
+oh_my_zsh_plugins:
+  - git
+
+users:
+  - username: declan
+    oh_my_zsh:
+      plugins:
+        - git
+        - aliases
+        - ansible
+        - terraform
+        - thefuck
+
+oh_my_zsh_install: yes
+zsh_plugin: ohmyzsh
+configureZSH: true
+
+# grog.package
+package_list:
+  - name: bash-completion
+  - name: git
+  - name: python3
+  - name: python3-pip
+  - name: python-is-python3 # required for acs zsh aliases plugin???

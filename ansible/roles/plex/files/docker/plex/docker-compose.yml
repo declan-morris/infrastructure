@@ -1,0 +1,44 @@
+version : "3.8"
+services:
+
+  plexms:
+    container_name: plexms
+    image: plexinc/pms-docker
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/plexms:/config
+      - /storage/data/media:/media # tv, movies, standups and music in this folder
+      - /dev/shm:/transcode
+    ports:
+      - "32400:32400/tcp"
+      - "3005:3005/tcp"
+      - "8324:8324/tcp"
+      - "32469:32469/tcp"
+      - "1900:1900/udp"
+      - "32410:32410/udp"
+      - "32412:32412/udp"
+      - "32413:32413/udp"
+      - "32414:32414/udp"
+    environment:
+      - TZ=${TZ}
+      - HOSTNAME=Plex
+      - PLEX_UID=${PUID}
+      - PLEX_GID=${PGID}
+      - ADVERTISE_IP="http://{{ ansible_default_ipv4.address }}:32400/"
+      - PLEX_CLAIM=claim-kn2zwkvYqC6fq7yhmCRh
+    devices:
+      - "/dev/dri:/dev/dri"
+
+  # tautulli:
+  #     image: linuxserver/tautulli
+  #     container_name: tautulli
+  #     environment:
+  #       - PUID=1000
+  #       - PGID=1000
+  #       - TZ=${TZ}
+  #     volumes:
+  #       - ${DOCKERDIR}/tautulli:/config
+  #       - '${DOCKERDIR}/plexms/Library/Application Support/Plex Media Server/Logs:/logs'
+  #     ports:
+  #       - 8181:8181
+  #     restart: unless-stopped

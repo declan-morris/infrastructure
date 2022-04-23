@@ -1,0 +1,69 @@
+---
+
+- hosts: pve
+  tasks:
+  - name: ensure dtm present
+    user:
+      name: dtm
+      groups: sudo
+      append: true
+    become: true
+
+  - name: Allow 'dtm' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: "^%dtm"
+      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+      validate: "visudo -cf %s"
+
+  - name: import github ssh keys
+    authorized_key:  
+      user: "dtm"
+      state: present
+      key: https://github.com/declan-morris.keys
+    become: true
+
+- hosts: pve
+  remote_user: dtm
+  roles:
+    - role: proxmox
+    - role: grog.package
+
+- hosts: pve
+  remote_user: dtm
+  roles:
+    - role: gantsign.oh-my-zsh
+      when: configureZSH
+    - role: diodonfrost.p10k
+      when: configureZSH
+    - role: p10k
+      when: configureZSH
+    - role: rossmcdonald.telegraf
+    - role: geerlingguy.docker
+
+- hosts: pve # maybe this should be asimov role so it's specific to the machine?
+  tasks:
+  - name: create /mnt points
+    file:
+      dest: "/storage"
+      state: directory
+      owner: nobody
+      group: nogroup
+      mode: 0777
+
+  - name: mount disk
+    mount:
+      name: "/storage"
+      src: "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1"
+      fstype: "ext4"
+      opts: "defaults"
+      # change to 'mounted' to auto mount
+      state: mounted
+  
+- hosts: pve
+  roles:
+    - role: geerlingguy.nfs
+      become: true
+    - role: plex
+      become: true

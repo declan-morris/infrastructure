@@ -1,0 +1,6 @@
+---
+- name: Prepare machine for docker
+  include: dockerPrepare.yml
+
+- name: Plex docker container
+  include: docker-plex.yml

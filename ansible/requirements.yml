@@ -1,0 +1,8 @@
+- src: geerlingguy.docker
+- src: geerlingguy.security
+- src: geerlingguy.ntp
+- src: geerlingguy.nfs
+- src: grog.package
+- src: gantsign.oh-my-zsh
+- src: rossmcdonald.telegraf
+- src: diodonfrost.p10k

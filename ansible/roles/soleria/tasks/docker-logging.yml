@@ -1,0 +1,19 @@
+- name: Creates docker directory for logging
+  file:
+    path: /home/dtm/docker/compose-logging
+    state: directory
+
+- name: Copy compose source templates for logging
+  template:
+    src: files/docker/logging/docker-compose.yml
+    dest: /home/dtm/docker/compose-logging/docker-compose.yml
+    
+- name: Copy env source templates for logging
+  template:
+    src: files/docker/logging/.env
+    dest: /home/dtm/docker/compose-logging/.env
+
+- name: Create and start logging services 
+  community.docker.docker_compose:
+    project_src: /home/dtm/docker/compose-logging
+  register: output

@@ -1,0 +1,7 @@
+- hosts: soleria
+  roles:
+    - role: soleria
+    - role: metrics
+    # - role: traefik # heimdall is currently taking port 80
+      become: yes
+    - role: dashboard

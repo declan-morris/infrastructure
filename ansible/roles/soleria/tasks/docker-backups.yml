@@ -1,0 +1,19 @@
+- name: Creates docker directory for backups
+  file:
+    path: /home/dtm/docker/compose-backups
+    state: directory
+
+- name: Copy compose source templates for backups
+  template:
+    src: files/docker/backups/docker-compose.yml
+    dest: /home/dtm/docker/compose-backups/docker-compose.yml
+    
+- name: Copy env source templates for backups
+  template:
+    src: files/docker/backups/.env
+    dest: /home/dtm/docker/compose-backups/.env
+
+- name: Create and start backups services 
+  community.docker.docker_compose:
+    project_src: /home/dtm/docker/compose-backups
+  register: output

@@ -1,0 +1,22 @@
+---
+
+- name: fileSharing
+  become: true
+  include: fileSharing.yml
+  tags:
+    - fileSharing
+
+- name: Prepare VM for docker
+  include: dockerPrepare.yml
+
+- name: Media docker containers
+  include: docker-media.yml
+
+- name: Backup docker containers
+  include: docker-backups.yml
+
+- name: Logging docker containers
+  include: docker-logging.yml
+
+- name: Prep Critical Role Downloads
+  include: critRole.yml

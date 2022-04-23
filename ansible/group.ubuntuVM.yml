@@ -1,0 +1,42 @@
+- hosts: ubuntuVM
+  # vars:
+  #   ansible_ssh_user: root # bootstrap for lxc
+  tasks:
+  - name: ensure dtm present
+    user:
+      name: dtm
+      groups: sudo
+      append: true
+    become: true
+
+  - name: Allow 'dtm' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: "^%dtm"
+      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+      validate: "visudo -cf %s"
+
+  - name: import github ssh keys
+    authorized_key:  
+      user: "dtm"
+      state: present
+      key: https://github.com/declan-morris.keys
+    become: true
+  roles:
+    - role: geerlingguy.security
+      become: yes
+
+- hosts: ubuntuVM
+  roles:
+    - role: gantsign.oh-my-zsh
+      when: configureZSH
+    - role: diodonfrost.p10k
+      when: configureZSH
+    - role: p10k
+      when: configureZSH
+    - role: geerlingguy.docker
+      become: yes
+    - role: grog.package
+      become: yes
+    - role: updateAndUpgrade

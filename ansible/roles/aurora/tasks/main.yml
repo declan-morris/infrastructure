@@ -1,0 +1,6 @@
+- name: changeHostname
+  become: true
+  include: changeHostname.yml
+
+- name: docker
+  include: docker.yml

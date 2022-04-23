@@ -1,0 +1,13 @@
+- hosts: saturn
+  connection: local
+  roles:
+    # - role: geerlingguy.docker
+    # - role: gantsign.oh-my-zsh
+    # - role: grog.package
+    #   become: yes
+    - role: gantsign.oh-my-zsh
+      when: configureZSH
+    - role: diodonfrost.p10k
+      when: configureZSH
+    - role: p10k
+      when: configureZSH

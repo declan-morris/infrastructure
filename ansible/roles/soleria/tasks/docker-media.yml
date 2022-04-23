@@ -1,0 +1,19 @@
+- name: Creates docker directory for media
+  file:
+    path: /home/dtm/docker/compose-media
+    state: directory
+
+- name: Copy compose source templates for media
+  template:
+    src: files/docker/media/docker-compose.yml
+    dest: /home/dtm/docker/compose-media/docker-compose.yml
+    
+- name: Copy env source templates for media
+  template:
+    src: files/docker/media/.env
+    dest: /home/dtm/docker/compose-media/.env
+
+- name: Create and start media services 
+  community.docker.docker_compose:
+    project_src: /home/dtm/docker/compose-media
+  register: output

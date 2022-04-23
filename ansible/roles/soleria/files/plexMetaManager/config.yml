@@ -1,0 +1,52 @@
+## This file is a template remove the .template to use the file
+
+libraries:                                      # Library mappings must have a colon (:) placed after them
+  Films: # this is the actual name of the library in plex"
+    metadata_path:
+      - file: config/Films.yml
+settings:                                       # Can be individually specified per library as well
+  cache: true
+  cache_expiration: 60
+  asset_directory: config/assets
+  asset_folders: true
+  assets_for_all: false
+  sync_mode: append
+  show_unmanaged: true
+  show_filtered: false
+  show_missing: true
+  save_missing: true
+  run_again_delay: 2
+  missing_only_released: false
+  create_asset_folders: false
+  collection_minimum: 1
+  delete_below_minimum: false
+  tvdb_language: default
+  show_missing_assets: true
+  show_missing_season_assets: false
+  delete_not_scheduled: false
+  only_filter_missing: false
+  ignore_ids:
+  ignore_imdb_ids:
+plex:                                           # Can be individually specified per library as well
+  url: {{  plex.url  }} #TODO CHANGE THIS TO THE SOLERIA IP http://192.168.86.249:32400
+  token: {{  plex.token  }} #TODO ADD BACK IN WHEN PMM IS BACK ON
+  timeout: 60
+  clean_bundles: false
+  empty_trash: false
+  optimize: false
+tmdb:
+  apikey: {{ tmdb.apiKey }} #TODO confirm this works when PMM is online
+  language: en
+radarr:
+  url: http://192.168.86.249:7878 TODO change to soleria IP
+  token: {{  radarr.token }} #TODO confirm this works when PMM is online
+  add: true
+  root_folder_path: /movies
+  monitor: true
+  availability: announced
+  quality_profile: HD - 720p/1080p
+  tag: pmm
+  search: false
+  add_existing: false
+  radarr_path:
+  plex_path:

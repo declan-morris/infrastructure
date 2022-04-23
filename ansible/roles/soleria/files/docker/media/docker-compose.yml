@@ -1,0 +1,216 @@
+version : "3.8"
+services:
+## to check if it's working curl https://api.nordvpn.com/vpn/check/full
+  nordvpn:
+    container_name: nordvpn
+    image: bubuntux/nordlynx:latest
+    restart: always
+    network_mode: bridge
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    ports:
+      - 9117:9117 #jacket
+      - 7878:7878 #radarr
+      - 7877:7877 #radarrStandups
+      - 8989:8989 #sonarr
+      - 9091:9091 #transmission ui
+      - 51413:51413 #transmission torrent port tcp
+      - 51413:51413/udp #transmission torrent port udp
+      - 5076:5076 #nzb hydra
+      - 8081:8080 #sabnzb
+      - 8686:8686 #lidarr
+      - 6767:6767 #bazarr
+      - 9696:9696 #prowlarr
+    environment:
+      - PRIVATE_KEY=${NORDVPNPRIVATE_KEY}
+      - TZ=${TZ}
+      - NET_LOCAL=${LOCALNETWORKCIDR}
+
+  jackett:
+    image: "linuxserver/jackett"
+    container_name: "jackett"
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/jackett:/config
+      - ${DOCKERDIR}/shared:/shared
+      - /storage/data/torrents/watch:/downloads # this is for adhoc torrent files downloaded via jackett interface rather than arr's
+      - "/etc/localtime:/etc/localtime:ro"
+    network_mode: service:nordvpn #9117
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  transmission:
+    image: linuxserver/transmission
+    container_name: transmission
+    restart: unless-stopped
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - TRANSMISSION_WEB_HOME=/combustion-release/
+      - USER=${TRANSMISSIONUSER}
+      - PASS=${TRANSMISSIONPASS}
+    volumes:
+      - ${DOCKERDIR}/transmission/config:/config
+      - /storage/data/torrents/downloads:/data/torrents/downloads
+      - /storage/data/torrents/watch:/watch
+      - /etc/localtime:/etc/localtime:ro
+    network_mode: service:nordvpn #9091
+    depends_on:
+      - nordvpn
+    healthcheck: # TODO: look to see if auto shutoff is possible?
+      test: if [ `curl https://api.nordvpn.com/vpn/check/full | jq -r .status` ==  "Protected" ]; then echo "Protected"; exit 0; else echo "Unprotected"; exit 1; fi
+      interval: 1m30s
+      timeout: 10s
+      retries: 3
+      start_period: 80s
+
+  nzbhydra2:
+    image: ghcr.io/linuxserver/nzbhydra2
+    container_name: nzbhydra2
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ} 
+    volumes:
+      - ${DOCKERDIR}/hydra:/config
+      - ${DOCKERDIR}/shared:/shared
+    network_mode: service:nordvpn #5076
+    depends_on:
+      - nordvpn
+    restart: unless-stopped
+
+  sabnzbd:
+    image: "linuxserver/sabnzbd"
+    container_name: "sabnzbd"
+    volumes:
+      - ${DOCKERDIR}/sabnzbd:/config
+      - ${DOCKERDIR}/shared:/shared
+      - /storage/data/usenet/downloads/complete:/data/usenet/downloads/complete
+      - /storage/data/usenet/downloads/incomplete:/data/usenet/downloads/incomplete
+    restart: always
+    network_mode: service:nordvpn #8080
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  sonarr:
+    image: "linuxserver/sonarr"
+    container_name: "sonarr"
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/sonarr:/config
+      - ${DOCKERDIR}/shared:/shared
+      - /storage/data:/data
+      - "/etc/localtime:/etc/localtime:ro"
+    network_mode: service:nordvpn #8989
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    labels: #TODO complete testing of reverse proxy
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`sonarr.soleria.net`)
+      - traefik.http.routers.whoami.tls.certresolver=le
+
+  radarr:
+    image: "linuxserver/radarr"
+    container_name: "radarr"
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/radarr:/config
+      - ${DOCKERDIR}/shared:/shared
+      - /storage/data:/data
+      - "/etc/localtime:/etc/localtime:ro"
+    network_mode: service:nordvpn #7878
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  radarrStandups:
+    image: "linuxserver/radarr"
+    container_name: "radarrStandups"
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/radarrStandups:/config
+      - ${DOCKERDIR}/shared:/shared
+      - /storage/data:/data
+      - "/etc/localtime:/etc/localtime:ro"
+    network_mode: service:nordvpn #7877
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  prowlarr:
+    image: linuxserver/prowlarr:develop
+    container_name: prowlarr
+    restart: always
+    volumes:
+      - ${DOCKERDIR}/prowlarr:/config
+    network_mode: service:nordvpn #9696
+    depends_on:
+      - nordvpn
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+
+  # lidarr:
+  #   image: linuxserver/lidarr
+  #   container_name: "lidarr"
+  #   volumes:
+  #     - ${DOCKERDIR}/lidarr:/config
+  #     - /storage/data:/data
+  #   network_mode: service:nordvpn #7877
+  #   depends_on:
+  #     - nordvpn
+  #   restart: unless-stopped      
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+
+  # bazarr:
+  #   image: linuxserver/bazarr
+  #   container_name: bazarr
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #   volumes:
+  #     - ${DOCKERDIR}/bazarr:/config
+  # /storage/data:/data
+  #     - /data/movies:/movies
+  #     - /data/tvshows:/tv
+  #   network_mode: service:nordvpn #6767
+  #   depends_on:
+  #     - nordvpn
+  #   restart: unless-stopped
+
+  # plex-meta-manager:
+  #   image: "meisnate12/plex-meta-manager"
+  #   container_name: "plex-meta-manager"
+  #   volumes:
+  #     - ${DOCKERDIR}/plexMetaManager:/config
+  #   restart: always
+  #   environment:
+  #     - PUID=${PUID}
+  #     - PGID=${PGID}
+  #     - TZ=${TZ}
+  #     - PMM_RUN=TRUE 

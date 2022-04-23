@@ -1,0 +1,38 @@
+[pve]
+192.168.86.240
+
+[pve:vars]
+ansible_ssh_user={{  machineCreds.pve.user  }}
+; ansible_ssh_pass={{  machineCreds.pve.password  }}
+
+[saturn]
+saturn ansible_connection=local
+
+[saturn:vars]
+ansible_ssh_user={{  machineCreds.saturn.user  }}
+ansible_become_password={{  machineCreds.saturn.password  }}
+
+[ubuntuVM:children]
+soleria
+aurora
+
+[aurora]
+192.168.86.201
+
+[aurora:vars]
+ansible_ssh_user={{  machineCreds.aurora.user  }}
+ansible_become_password={{  machineCreds.aurora.password  }}
+
+[soleria]
+192.168.86.200
+
+[soleria:vars]
+ansible_ssh_user={{  machineCreds.soleria.user  }}
+ansible_become_password={{  machineCreds.soleria.password  }}
+
+[pi]
+raspberrypi
+
+[pi:vars]
+ansible_ssh_user={{  machineCreds.pi.defaultUser  }}
+ansible_ssh_pass={{  machineCreds.pi.defaultPassword  }}

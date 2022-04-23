@@ -1,0 +1,60 @@
+version : "3.8"
+services:
+
+  pihole:
+    container_name: pihole
+    image: pihole/pihole
+    restart: always
+    ports:
+      - "53:53/tcp"
+      - "53:53/udp"
+      - "67:67/udp"
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - WEBPASSWORD=${PIHOLEWEBPASSWORD}
+    volumes:
+      - '${DOCKERDIR}/pihole/pihole/:/etc/pihole/'
+      - '${DOCKERDIR}/pihole/dnsmasq.d/:/etc/dnsmasq.d/'
+    cap_add:
+      - NET_ADMIN
+
+  duckdns:
+    container_name: duckdns
+    image: linuxserver/duckdns
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - SUBDOMAINS=${DUCKDNSSUBDOMAINS}
+      - TOKEN=${DUCKDNSTOKEN}
+    volumes:
+      - ${DOCKERDIR}/duckdns:/config
+
+  wireguard:
+    container_name: wireguard
+    image: linuxserver/wireguard
+    restart: always
+    ports:
+      - 51820:51820/udp
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - SERVERURL=${WIREGUARDSERVERURL}
+      - SERVERPORT=${WIREGUARDSERVERPORT}
+      - PEERS=declanMobile,beckyMobile
+      - PEERDNS=${ROUTERIP}
+      - INTERNAL_SUBNET=10.13.13.0
+    volumes:
+      - ${DOCKERDIR}/wireguard:/config
+      - /lib/modules:/lib/modules
+    cap_add:
+      - NET_ADMIN
+      - SYS_MODULE
+    sysctls:
+      - net.ipv4.conf.all.src_valid_mark=1

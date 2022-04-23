@@ -1,0 +1,47 @@
+- name: Install yt-dlp python package
+  pip:
+    name: yt-dlp
+
+- name: Install and update package "ffmpeg" to latest version
+  apt:
+    name: ffmpeg
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Install and update package "webp" to latest version
+  apt:
+    name: webp
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Install and update package "jq" to latest version
+  apt:
+    name: jq
+    state: latest
+    update_cache: yes
+  become: true
+
+- name: Create youtube dl directory if it does not exist
+  file:
+    path: /home/dtm/youtubedl/
+    state: directory
+
+- name: Copy youtube dl config
+  copy:
+    src: youtubedl/dl.config
+    dest: /home/dtm/youtubedl/dl.config
+
+- name: Copy youtube dl cron script
+  copy:
+    src: youtubedl/critRoleDownload.sh
+    dest: /home/dtm/youtubedl/critRoleDownload.sh
+
+- name: Create cronjob to download Critical Role Season 3 files
+  cron:
+    name: "Download Critical Role Season 3"
+    weekday: "*"
+    hour: 20
+    minute: 10
+    job: "/home/dtm/youtubedl/critRoleDownload.sh >> /home/dtm/youtubedl/log.txt 2>&1"

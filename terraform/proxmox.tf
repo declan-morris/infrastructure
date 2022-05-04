@@ -24,7 +24,7 @@ resource "proxmox_lxc" "soleria" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "192.168.86.200/24"
+    ip     = "${cidrhost(var.localSubnet, 200)}/24"
     gw     = cidrhost(var.localSubnet, 1)
     ip6    = "auto"
   }
@@ -65,7 +65,7 @@ resource "proxmox_lxc" "aurora" {
   network {
     name   = "eth0"
     bridge = "vmbr0"
-    ip     = "192.168.86.201/24"
+    ip     = "${cidrhost(var.localSubnet, 201)}/24"
     gw     = cidrhost(var.localSubnet, 1)
     ip6    = "auto"
   }

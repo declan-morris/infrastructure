@@ -67,3 +67,5 @@
       become: true
     - role: plex
       become: true
+    - role: artis3n.tailscale
+      become: yes

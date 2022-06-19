@@ -18,6 +18,20 @@ Unzip
 Install bitwarden
 `sudo install bw /usr/local/bin`
 
+Login
+`bw login`
+
 ## Ansible
+
+### Install ansible and current requirements
+Install pip3
+`sudo apt-get -y install python3-pip`
+
+Install Ansible
+`sudo python -m pip install ansible`
+
+Install requirements
+`ansible-galaxy install -r requirements.yml`
+
 
 ## Terraform

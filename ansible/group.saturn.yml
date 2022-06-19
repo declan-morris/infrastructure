@@ -2,7 +2,6 @@
   connection: local
   roles:
     # - role: geerlingguy.docker
-    # - role: gantsign.oh-my-zsh
     # - role: grog.package
     #   become: yes
     - role: gantsign.oh-my-zsh

@@ -3,3 +3,4 @@
 - hosts: aurora
   roles:
     - role: aurora
+    - role: artis3n.tailscale

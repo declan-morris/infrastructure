@@ -7,6 +7,7 @@ resource "proxmox_lxc" "soleria" {
   hostname     = "soleria"
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   unprivileged = true
+  onboot       = true
 
   ssh_public_keys = data.http.githubsshKeys.body
   memory          = 4 * 1024
@@ -35,10 +36,14 @@ resource "proxmox_lxc" "soleria" {
     storage = "/storage/data"
     volume  = "/storage/data"
     mp      = "/storage/data"
-    size    = "0G" # really weird this has to be specified, 0G works and 1400G appears to work?
-    # if the size is ~10G or 100G as examples, the vm won't start
-    # setting size via `pct set 101 -mp2 mp=/storage/data,/storage/data` doesn't show a size in the UI
-    # if set via cmd line then terraform is run again it will error
+    size    = "0G"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ssh_public_keys,
+      mountpoint
+    ]
   }
 }
 
@@ -48,6 +53,7 @@ resource "proxmox_lxc" "aurora" {
   hostname     = "aurora"
   ostemplate   = "local:vztmpl/ubuntu-20.04-standard_20.04-1_amd64.tar.gz"
   unprivileged = true
+  onboot       = true
 
   ssh_public_keys = data.http.githubsshKeys.body
   memory          = 4 * 1024
@@ -68,5 +74,11 @@ resource "proxmox_lxc" "aurora" {
     ip     = "${cidrhost(var.localSubnet, 201)}/24"
     gw     = cidrhost(var.localSubnet, 1)
     ip6    = "auto"
+  }
+
+  lifecycle {
+    ignore_changes = [
+      ssh_public_keys,
+    ]
   }
 }

@@ -5,3 +5,7 @@ provider "aws" {
 provider "proxmox" {
   pm_tls_insecure = true
 }
+
+provider "azurerm" {
+  features {}
+}

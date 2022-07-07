@@ -7,9 +7,15 @@ export PM_API_URL="https://192.168.86.240:8006/api2/json"
 export PM_USER="root@pam"
 export PM_PASS=$(bw get password proxmox-asimov-root-pass --session $BW_SESSION)
 
-# terraform state user
+# aws terraform state user
 export AWS_ACCESS_KEY_ID=$(bw get password aws-terraform-keyid --session $BW_SESSION)
 export AWS_SECRET_ACCESS_KEY=$(bw get password aws-terraform-accesskey --session $BW_SESSION)
+
+# azure service principal - username of terraform
+export ARM_CLIENT_ID=$(bw get password azure-terraform-clientid --session $BW_SESSION)
+export ARM_CLIENT_SECRET=$(bw get password azure-terraform-clientSecret --session $BW_SESSION)
+export ARM_SUBSCRIPTION_ID=$(bw get password azure-terraform-subscriptionid --session $BW_SESSION)
+export ARM_TENANT_ID=$(bw get password azure-terraform-tenantid --session $BW_SESSION)
 
 #kill the bw session?
 bw lock --quiet

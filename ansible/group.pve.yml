@@ -28,6 +28,7 @@
   remote_user: dtm
   roles:
     - role: proxmox
+      become: yes
     - role: grog.package
 
 - hosts: pve
@@ -41,6 +42,7 @@
       when: configureZSH
     - role: rossmcdonald.telegraf
     - role: geerlingguy.docker
+      become: true
 
 - hosts: pve # maybe this should be asimov role so it's specific to the machine?
   tasks:
@@ -67,3 +69,7 @@
       become: true
     - role: plex
       become: true
+    - role: artis3n.tailscale
+      vars:
+        tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
+      become: yes

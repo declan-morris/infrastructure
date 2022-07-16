@@ -36,3 +36,10 @@ raspberrypi
 [pi:vars]
 ansible_ssh_user={{  machineCreds.pi.defaultUser  }}
 ansible_ssh_pass={{  machineCreds.pi.defaultPassword  }}
+
+[dmdc]
+23.97.242.81
+
+[dmdc:vars]
+ansible_ssh_user={{ machineCreds.dmdc.user }}
+ansible_ssh_private_key_file=secrets/id_RSAAzureBootstrap.pk

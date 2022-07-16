@@ -1,0 +1,14 @@
+## oh my zsh theme
+oh_my_zsh_install: yes
+zsh_plugin: ohmyzsh
+configureZSH: true
+
+users:
+  - username: dtm
+    oh_my_zsh:
+      plugins:
+        - git
+        - docker
+        - docker-compose
+        - thefuck
+        - aliases

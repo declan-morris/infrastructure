@@ -47,21 +47,5 @@ telegraf_plugins_base:
       protocol: "tcp"
       address: "soleria:8989"
 
-
-## oh my zsh theme
-oh_my_zsh_install: yes
-zsh_plugin: ohmyzsh
-configureZSH: true
-
-users:
-  - username: dtm
-    oh_my_zsh:
-      plugins:
-        - git
-        - docker
-        - docker-compose
-        - thefuck
-        - aliases
-
 nfs_exports:
   - "/storage/data *(rw,sync,no_root_squash)" 

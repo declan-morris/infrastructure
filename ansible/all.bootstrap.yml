@@ -1,0 +1,31 @@
+- hosts: dmdc # testing with dmdc first
+  tasks:
+  - name: ensure dtm present
+    user:
+      name: dtm
+      groups: sudo
+      append: true
+    become: true
+
+  - name: Allow 'dtm' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: "^%dtm"
+      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+      validate: "visudo -cf %s"
+    become: true
+
+  - name: import github ssh keys
+    authorized_key:  
+      user: "dtm"
+      state: present
+      key: https://github.com/declan-morris.keys
+    become: true
+
+- hosts: dmdc #testing with dmdc first
+  remote_user: dtm
+  roles:
+    - role: gantsign.oh-my-zsh
+    - role: diodonfrost.p10k
+    - role: p10k

@@ -14,6 +14,7 @@
     dest: /home/dtm/docker/compose-backups/.env
 
 - name: Create and start backups services 
-  community.docker.docker_compose:
+  docker_compose:
     project_src: /home/dtm/docker/compose-backups
+    pull: yes
   register: output

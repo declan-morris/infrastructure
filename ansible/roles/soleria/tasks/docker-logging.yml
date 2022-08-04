@@ -14,6 +14,7 @@
     dest: /home/dtm/docker/compose-logging/.env
 
 - name: Create and start logging services 
-  community.docker.docker_compose:
+  docker_compose:
     project_src: /home/dtm/docker/compose-logging
+    pull: yes
   register: output

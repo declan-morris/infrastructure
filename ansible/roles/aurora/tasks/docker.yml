@@ -66,6 +66,7 @@
   when: newSystemdConfig is changed
 
 - name: Create and start network services
-  community.docker.docker_compose:
+  docker_compose:
     project_src: /home/dtm/docker
+    pull: yes
   register: output

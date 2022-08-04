@@ -1,0 +1,9 @@
+version : "3.8"
+services:
+
+  declanmorris:
+    container_name: declanmorris
+    image: ghcr.io/declan-morris/declanmorris.com:main
+    restart: always
+    ports:
+      - "80:80"

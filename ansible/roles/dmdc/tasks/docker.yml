@@ -1,0 +1,27 @@
+- name: Install docker python package
+  pip:
+    name: docker
+
+- name: Install docker-compose python package
+  pip:
+    name: docker-compose
+
+- name: Install docker python package - required for ansible docker compose
+  pip:
+    name: docker
+
+- name: Creates docker directory
+  file:
+    path: /home/opt/dmdc
+    state: directory
+
+- name: Copy compose source templates
+  template:
+    src: files/docker-compose.yml
+    dest: /home/opt/dmdc/docker-compose.yml
+
+- name: Create and start docker services
+  docker_compose:
+    project_src: /home/opt/dmdc
+    pull: yes
+  register: output

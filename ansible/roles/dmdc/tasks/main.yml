@@ -1,2 +1,5 @@
 - name: docker
   include: docker.yml
+
+- name: nginx
+  include: nginx.yml

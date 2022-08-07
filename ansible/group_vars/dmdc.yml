@@ -2,3 +2,4 @@
 package_list:
   - name: python3
   - name: python3-pip
+  - name: nginx

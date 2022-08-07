@@ -9,3 +9,6 @@ provider "proxmox" {
 provider "azurerm" {
   features {}
 }
+
+provider "cloudflare" {
+}

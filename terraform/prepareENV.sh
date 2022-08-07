@@ -17,6 +17,9 @@ export ARM_CLIENT_SECRET=$(bw get password azure-terraform-clientSecret --sessio
 export ARM_SUBSCRIPTION_ID=$(bw get password azure-terraform-subscriptionid --session $BW_SESSION)
 export ARM_TENANT_ID=$(bw get password azure-terraform-tenantid --session $BW_SESSION)
 
+# cloudflare
+export CLOUDFLARE_API_TOKEN=$(bw get password cloudflare-terraform-apitoken --session $BW_SESSION)
+
 #kill the bw session?
 bw lock --quiet
 export BW_SESSION=""

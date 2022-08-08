@@ -9,7 +9,7 @@ package_list:
 
 # telegraf
 telegraf_influxdb_urls:
-  - http://soleria:8086
+  - http://192.168.86.200:8086
 
 remove_nag: true
 remove_enterprise_repo: true

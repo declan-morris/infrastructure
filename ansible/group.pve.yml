@@ -30,17 +30,13 @@
     - role: proxmox
       become: yes
     - role: grog.package
+      become: yes
 
 - hosts: pve
   remote_user: dtm
   roles:
-    - role: gantsign.oh-my-zsh
-      when: configureZSH
-    - role: diodonfrost.p10k
-      when: configureZSH
-    - role: p10k
-      when: configureZSH
     - role: rossmcdonald.telegraf
+      become: true
     - role: geerlingguy.docker
       become: true
 

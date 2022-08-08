@@ -3,11 +3,13 @@
 
 - hosts: dmdc
   roles:
-    # - role: geerlingguy.security
-    #   become: true
-    # - role: geerlingguy.docker
-    #   become: true
-    # - role: grog.package
-    #   become: yes
+    - role: geerlingguy.security
+      become: true
+    - role: geerlingguy.docker
+      become: true
+    - role: grog.package
+      become: yes
     - role: dmdc
+      become: yes
+    - role: geerlingguy.certbot
       become: yes

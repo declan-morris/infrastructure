@@ -3,3 +3,20 @@ package_list:
   - name: python3
   - name: python3-pip
   - name: nginx
+  - name: certbot
+  - name: python3-certbot-nginx
+
+certbot_auto_renew_user: dtm
+certbot_auto_renew_minute: "03"
+certbot_auto_renew_hour: "5"
+certbot_create_if_missing: true
+
+certbot_create_standalone_stop_services:
+  - nginx
+
+certbot_certs:
+  - domains:
+    - declan-morris.com
+    - www.declan-morris.com
+
+certbot_admin_email: "{{ certbot.adminEmail }}"

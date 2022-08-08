@@ -7,3 +7,5 @@
 - src: rossmcdonald.telegraf
 - src: diodonfrost.p10k
 - src: artis3n.tailscale
+- src: geerlingguy.certbot
+ 

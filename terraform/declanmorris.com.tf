@@ -105,3 +105,31 @@ resource "azurerm_network_security_rule" "SSHRule" {
   resource_group_name         = azurerm_resource_group.personalSite.name
   network_security_group_name = azurerm_network_security_group.personalSiteNSG.name
 }
+
+resource "azurerm_network_security_rule" "HTTPRule" {
+  name                        = "HTTP"
+  priority                    = 101
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "80"
+  source_address_prefix       = "*"
+  destination_address_prefix  = azurerm_network_interface.personalSiteNIC.private_ip_address
+  resource_group_name         = azurerm_resource_group.personalSite.name
+  network_security_group_name = azurerm_network_security_group.personalSiteNSG.name
+}
+
+resource "azurerm_network_security_rule" "HTTPSRule" {
+  name                        = "HTTPS Access"
+  priority                    = 102
+  direction                   = "Inbound"
+  access                      = "Allow"
+  protocol                    = "*"
+  source_port_range           = "*"
+  destination_port_range      = "443"
+  source_address_prefix       = "*"
+  destination_address_prefix  = azurerm_network_interface.personalSiteNIC.private_ip_address
+  resource_group_name         = azurerm_resource_group.personalSite.name
+  network_security_group_name = azurerm_network_security_group.personalSiteNSG.name
+}

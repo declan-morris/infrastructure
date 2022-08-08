@@ -7,5 +7,13 @@ resource "cloudflare_record" "dmdcRecord" {
   name    = "www"
   value   = azurerm_public_ip.pubIP.ip_address
   type    = "A"
-  proxied = true
+  proxied = false #todo set to true 
+}
+
+resource "cloudflare_record" "dmdcRootRecord" {
+  zone_id = data.cloudflare_zone.dmdcZone.zone_id
+  name    = "@"
+  value   = azurerm_public_ip.pubIP.ip_address
+  type    = "A"
+  proxied = false
 }

@@ -7,3 +7,10 @@ services:
     restart: always
     ports:
       - "8080:80"
+
+  whoami:
+    container_name: "simple-service"
+    image: "traefik/whoami"
+    restart: always
+    ports:
+      - "8085:80"

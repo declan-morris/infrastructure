@@ -1,9 +1,15 @@
-- name: Copy nginx conf file
+- name: Copy dmdc nginx conf file
   template:
     src: files/dmdc.https.conf
     dest: /etc/nginx/conf.d/dmcd.conf
   register: nginxConfigChanged
-  
+
+- name: Copy whoami nginx conf file
+  template:
+    src: files/whoami.conf
+    dest: /etc/nginx/conf.d/whoami.conf
+  register: nginxConfigChanged
+
 - name: remove default site
   file:
     path: /etc/nginx/sites-enabled/default

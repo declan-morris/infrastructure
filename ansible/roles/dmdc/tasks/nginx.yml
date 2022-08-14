@@ -1,7 +1,8 @@
 - name: Copy dmdc nginx conf file
   template:
+    # src: files/dmdc.conf
     src: files/dmdc.https.conf
-    dest: /etc/nginx/conf.d/dmcd.conf
+    dest: /etc/nginx/conf.d/dmdc.conf
   register: nginxConfigChanged
 
 - name: Copy whoami nginx conf file
@@ -15,8 +16,15 @@
     path: /etc/nginx/sites-enabled/default
     state: absent
 
+- name: copy options-ssl-nginx.conf
+  copy: 
+    src: /usr/lib/python3/dist-packages/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
+    dest: /etc/letsencrypt/options-ssl-nginx.conf
+    remote_src: yes
+
 - name: Restart nginx
   service: 
     name: nginx 
     state: restarted
-  when: nginxConfigChanged is changed
+  # when: nginxConfigChanged is changed
+  ignore_errors: yes

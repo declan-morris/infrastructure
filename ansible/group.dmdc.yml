@@ -1,6 +1,5 @@
 ---
 
-
 - hosts: dmdc
   roles:
     - role: geerlingguy.security

@@ -2,8 +2,6 @@
 package_list:
   - name: python3
   - name: python3-pip
-  - name: nginx
-  - name: python3-certbot-nginx
 
 certbot_auto_renew_user: dtm
 certbot_auto_renew_minute: "03"

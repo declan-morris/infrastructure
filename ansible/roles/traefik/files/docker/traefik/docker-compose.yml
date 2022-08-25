@@ -11,3 +11,12 @@ services:
     environment:
       - CF_DNS_API_TOKEN={{ cloudFlare.APIToken }}
     restart: unless-stopped
+
+  whoami:
+    container_name: whoami
+    image: containous/whoami:latest
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.soleria.net`)
+      - traefik.http.routers.whoami.tls.certresolver=le

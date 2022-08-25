@@ -15,8 +15,5 @@
 - name: Backup docker containers
   include: docker-backups.yml
 
-- name: Logging docker containers
-  include: docker-logging.yml
-
 - name: Prep Critical Role Downloads
   include: critRole.yml

@@ -118,10 +118,10 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-    labels: #TODO complete testing of reverse proxy
-      - traefik.enable=true
-      - traefik.http.routers.whoami.rule=Host(`sonarr.soleria.net`)
-      - traefik.http.routers.whoami.tls.certresolver=le
+    # labels: #TODO complete testing of reverse proxy
+    #   - traefik.enable=true
+    #   - traefik.http.routers.sonarr.rule=Host(`sonarr.soleria.net`)
+    #   - traefik.http.routers.sonarr.tls.certresolver=le
 
   radarr:
     image: "linuxserver/radarr"
@@ -170,6 +170,31 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
+
+  traefik:
+    container_name: traefik
+    image: traefik:latest
+    # network_mode: host
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - ${DOCKERDIR}/traefik:/etc/traefik
+    ports:
+      - 80:80
+      - 443:443
+      - 8085:8080
+    environment:
+      - CF_DNS_API_TOKEN={{ cloudFlare.APIToken }}
+    restart: unless-stopped
+
+  whoami:
+    container_name: whoami
+    image: containous/whoami:latest
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.whoami.rule=Host(`whoami.soleria.net`)
+      - traefik.http.routers.whoami.tls.certresolver=le
+      - traefik.http.routers.whoami.entrypoints=websecure
 
   # lidarr:
   #   image: linuxserver/lidarr

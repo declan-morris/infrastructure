@@ -2,7 +2,7 @@ entryPoints:
   web:
     address: :80
 
-  web-secure:
+  websecure:
     address: :443
     http:
       tls:

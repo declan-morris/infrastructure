@@ -13,6 +13,16 @@
     src: files/docker/media/.env
     dest: /home/dtm/docker/compose-media/.env
 
+- name: Create config directory
+  file:
+    path: /home/dtm/docker/traefik/
+    state: directory
+
+- name: Install config
+  template:
+    src: files/traefik/traefik.yml
+    dest: /home/dtm/docker/traefik/traefik.yml
+
 - name: Create and start media services 
   docker_compose:
     project_src: /home/dtm/docker/compose-media

@@ -224,51 +224,46 @@ services:
       - CF_DNS_API_TOKEN={{ cloudFlare.APIToken }}
     restart: unless-stopped
 
-  whoami:
-    container_name: whoami
-    image: containous/whoami:latest
+  heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
     networks:
       - reverseProxy
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERDIR}/heimdall:/config
     restart: unless-stopped
     labels:
       - traefik.enable=true
-      - traefik.http.routers.whoami.rule=Host(`whoami.soleria.net`)
-      - traefik.http.routers.whoami.tls.certresolver=le
-      - traefik.http.routers.whoami.entrypoints=websecure
+      - traefik.http.routers.heimdall.rule=Host(`soleria.net`)
+      - traefik.http.routers.heimdall.tls.certresolver=le
+      - traefik.http.routers.heimdall.entrypoints=websecure
 
-networks:
-  reverseProxy: {}
-  # lidarr:
-  #   image: linuxserver/lidarr
-  #   container_name: "lidarr"
-  #   volumes:
-  #     - ${DOCKERDIR}/lidarr:/config
-  #     - /storage/data:/data
-  #   network_mode: service:nordvpn #7877
-  #   depends_on:
-  #     - nordvpn
-  #   restart: unless-stopped      
-  #   environment:
-  #     - PUID=${PUID}
-  #     - PGID=${PGID}
-  #     - TZ=${TZ}
-
-  # bazarr:
-  #   image: linuxserver/bazarr
-  #   container_name: bazarr
-  #   environment:
-  #     - PUID=${PUID}
-  #     - PGID=${PGID}
-  #     - TZ=${TZ}
-  #   volumes:
-  #     - ${DOCKERDIR}/bazarr:/config
-  # /storage/data:/data
-  #     - /data/movies:/movies
-  #     - /data/tvshows:/tv
-  #   network_mode: service:nordvpn #6767
-  #   depends_on:
-  #     - nordvpn
-  #   restart: unless-stopped
+  bazarr:
+    image: linuxserver/bazarr
+    container_name: bazarr
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    volumes:
+      - ${DOCKERDIR}/bazarr:/config
+      - /storage/data:/data
+      - /data/movies:/movies
+      - /data/tvshows:/tv
+    network_mode: service:nordvpn #6767
+    depends_on:
+      - nordvpn
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.bazarr.rule=Host(`bazarr.soleria.net`)
+      - traefik.http.routers.bazarr.tls.certresolver=le
+      - traefik.http.routers.bazarr.entrypoints=websecure
+      - traefik.http.services.bazarr.loadbalancer.server.port=6767
 
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
@@ -281,3 +276,6 @@ networks:
   #     - PGID=${PGID}
   #     - TZ=${TZ}
   #     - PMM_RUN=TRUE 
+
+networks:
+  reverseProxy: {}

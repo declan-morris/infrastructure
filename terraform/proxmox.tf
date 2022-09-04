@@ -10,7 +10,8 @@ resource "proxmox_lxc" "soleria" {
   onboot       = true
 
   ssh_public_keys = data.http.githubsshKeys.body
-  memory          = 4 * 1024
+  memory          = 8 * 1024
+  swap            = 1 * 1024
 
   features {
     nesting = true

@@ -70,3 +70,7 @@
     project_src: /home/dtm/docker
     pull: yes
   register: output
+
+- name: Prune docker images
+  docker_prune:
+    images: true

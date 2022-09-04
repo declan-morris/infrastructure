@@ -28,3 +28,7 @@
     project_src: /home/dtm/docker/compose-media
     pull: yes
   register: output
+
+- name: Prune docker images
+  docker_prune:
+    images: true

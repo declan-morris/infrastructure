@@ -265,6 +265,50 @@ services:
       - traefik.http.routers.bazarr.entrypoints=websecure
       - traefik.http.services.bazarr.loadbalancer.server.port=6767
 
+  paperless-ngx:
+    image: linuxserver/paperless-ngx:latest
+    container_name: paperless-ngx
+    networks:
+      - reverseProxy
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - PAPERLESS_URL=https://paperless.soleria.net
+    volumes:
+      - ${DOCKERDIR}/paperless/config:/config
+      - ${DOCKERDIR}/paperless/data:/data
+    ports:
+      - 8000:8000
+    restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.paperless.rule=Host(`paperless.soleria.net`)
+      - traefik.http.routers.paperless.tls.certresolver=le
+      - traefik.http.routers.paperless.entrypoints=websecure
+      - traefik.http.services.paperless.loadbalancer.server.port=8000
+
+  lidarr:
+    image: linuxserver/lidarr
+    container_name: "lidarr"
+    volumes:
+      - ${DOCKERDIR}/lidarr:/config
+      - /storage/data:/data
+    network_mode: service:nordvpn #7877
+    depends_on:
+      - nordvpn
+    restart: unless-stopped      
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.lidarr.rule=Host(`lidarr.soleria.net`)
+      - traefik.http.routers.lidarr.tls.certresolver=le
+      - traefik.http.routers.lidarr.entrypoints=websecure
+      - traefik.http.services.lidarr.loadbalancer.server.port=7877
+
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
   #   container_name: "plex-meta-manager"

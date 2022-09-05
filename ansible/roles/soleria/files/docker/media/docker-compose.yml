@@ -318,9 +318,19 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
+      - BASE_URL="https://changedetection.soleria.net"
+    networks:
+      - reverseProxy
     ports:
       - 5000:5000
     restart: unless-stopped
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.changedetection.rule=Host(`changedetection.soleria.net`)
+      - traefik.http.routers.changedetection.tls.certresolver=le
+      - traefik.http.routers.changedetection.entrypoints=websecure
+      - traefik.http.services.changedetection.loadbalancer.server.port=5000
+
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
   #   container_name: "plex-meta-manager"

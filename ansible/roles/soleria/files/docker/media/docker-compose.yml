@@ -29,7 +29,7 @@ services:
       - NET_LOCAL=${LOCALNETWORKCIDR}
 
   jackett:
-    image: "linuxserver/jackett"
+    image: linuxserver/jackett:latest
     container_name: "jackett"
     restart: always
     volumes:
@@ -51,7 +51,7 @@ services:
       - traefik.http.services.jackett.loadbalancer.server.port=9117
 
   transmission:
-    image: linuxserver/transmission
+    image: linuxserver/transmission:latest
     container_name: transmission
     restart: unless-stopped
     environment:
@@ -82,7 +82,7 @@ services:
       - traefik.http.services.transmission.loadbalancer.server.port=9091
 
   nzbhydra2:
-    image: ghcr.io/linuxserver/nzbhydra2
+    image: ghcr.io/linuxserver/nzbhydra2:latest
     container_name: nzbhydra2
     environment:
       - PUID=${PUID}
@@ -102,7 +102,7 @@ services:
       - traefik.http.services.nzbhydra.loadbalancer.server.port=5076
 
   sabnzbd:
-    image: "linuxserver/sabnzbd"
+    image: linuxserver/sabnzbd:latest
     container_name: "sabnzbd"
     volumes:
       - ${DOCKERDIR}/sabnzbd:/config
@@ -124,7 +124,7 @@ services:
       - traefik.http.services.sabnzbd.loadbalancer.server.port=8080
 
   sonarr:
-    image: "linuxserver/sonarr"
+    image: linuxserver/sonarr:latest
     container_name: "sonarr"
     restart: always
     volumes:
@@ -146,7 +146,7 @@ services:
       - traefik.http.services.sonarr.loadbalancer.server.port=8989
 
   radarr:
-    image: "linuxserver/radarr"
+    image: linuxserver/radarr:latest
     container_name: "radarr"
     restart: always
     volumes:
@@ -168,7 +168,7 @@ services:
       - traefik.http.services.radarr.loadbalancer.server.port=7878
 
   radarrStandups:
-    image: "linuxserver/radarr"
+    image: linuxserver/radarr:latest
     container_name: "radarrStandups"
     restart: always
     volumes:
@@ -225,7 +225,7 @@ services:
     restart: unless-stopped
 
   heimdall:
-    image: linuxserver/heimdall
+    image: linuxserver/heimdall:latest
     container_name: heimdall
     networks:
       - reverseProxy
@@ -243,7 +243,7 @@ services:
       - traefik.http.routers.heimdall.entrypoints=websecure
 
   bazarr:
-    image: linuxserver/bazarr
+    image: linuxserver/bazarr:latest
     container_name: bazarr
     environment:
       - PUID=${PUID}
@@ -289,7 +289,7 @@ services:
       - traefik.http.services.paperless.loadbalancer.server.port=8000
 
   lidarr:
-    image: linuxserver/lidarr
+    image: linuxserver/lidarr:latest
     container_name: "lidarr"
     volumes:
       - ${DOCKERDIR}/lidarr:/config
@@ -310,7 +310,7 @@ services:
       - traefik.http.services.lidarr.loadbalancer.server.port=7877
 
   changedetection:
-    image: ghcr.io/dgtlmoon/changedetection.io
+    image: ghcr.io/dgtlmoon/changedetection.io:latest
     container_name: changedetection
     hostname: changedetection
     volumes:
@@ -319,6 +319,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - BASE_URL="https://changedetection.soleria.net"
+      - PLAYWRIGHT_DRIVER_URL=ws://playwright-chrome:3000/
     networks:
       - reverseProxy
     ports:
@@ -331,6 +332,12 @@ services:
       - traefik.http.routers.changedetection.entrypoints=websecure
       - traefik.http.services.changedetection.loadbalancer.server.port=5000
 
+  playwright-chrome:
+    hostname: playwright-chrome
+    image: browserless/chrome
+    restart: unless-stopped
+    networks:
+      - reverseProxy
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
   #   container_name: "plex-meta-manager"

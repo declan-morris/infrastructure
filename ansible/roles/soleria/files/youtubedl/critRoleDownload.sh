@@ -10,7 +10,7 @@ echo " starting run on $d"
 echo  "run youtube downloader for this playlist for videos uploaded in the last two weeks"
 /home/dtm/.local/bin/yt-dlp --dateafter today-2weeks --config-location /home/dtm/youtubedl/dl.config https://www.youtube.com/playlist?list=PL1tiwbzkOjQydg3QOkBLG9OYqWJ0dwlxF
 # /home/dtm/.local/bin/yt-dlp -I 15:17 --config-location /home/dtm/youtubedl/dl.config https://www.youtube.com/playlist?list=PL1tiwbzkOjQydg3QOkBLG9OYqWJ0dwlxF
-
+# --playlist-start 5 --playlist-end 10
 
 echo "get png files for each of the webp files"
 DIRECTORY='/storage/data/media/tvshows/Critical Role (2015)/Season 03'

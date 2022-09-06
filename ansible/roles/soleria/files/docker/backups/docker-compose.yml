@@ -2,7 +2,7 @@ version : "3.8"
 services:
 
   duplicati:
-    image: lscr.io/linuxserver/duplicati
+    image: lscr.io/linuxserver/duplicati:latest
     container_name: duplicati
     environment:
       - PUID=${PUID}

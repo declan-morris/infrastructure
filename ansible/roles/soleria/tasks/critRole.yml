@@ -1,6 +1,7 @@
 - name: Install yt-dlp python package
   pip:
     name: yt-dlp
+    # todo update to latest so it doesn't get out of date
 
 - name: Install and update package "ffmpeg" to latest version
   apt:
@@ -37,6 +38,7 @@
   copy:
     src: youtubedl/critRoleDownload.sh
     dest: /home/dtm/youtubedl/critRoleDownload.sh
+    mode: "700"
 
 - name: Create cronjob to download Critical Role Season 3 files
   cron:

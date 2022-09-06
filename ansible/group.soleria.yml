@@ -2,6 +2,5 @@
   roles:
     - role: soleria
     - role: metrics
-    # - role: traefik # heimdall is currently taking port 80
       become: yes
-    # - role: dashboard # todo this needs deleting if I move heimdall to media compose
+    - role: stefangweichinger.ansible_rclone

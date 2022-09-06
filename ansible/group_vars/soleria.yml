@@ -8,3 +8,11 @@ package_list:
   - name: python3
   - name: python3-pip
   - name: gparted
+
+rclone_configs:
+  - name: gdrive
+    properties:
+      type: drive
+      client_id: "{{rCloneGoogleDriveApp.clientId}}"
+      client_secret: "{{rCloneGoogleDriveApp.clientSecret}}"
+      token: "{{rCloneGoogleDriveApp.token}}"

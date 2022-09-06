@@ -1,11 +1,5 @@
 ---
 
-- name: fileSharing
-  become: true
-  include: fileSharing.yml
-  tags:
-    - fileSharing
-
 - name: Prepare VM for docker
   include: dockerPrepare.yml
 
@@ -17,3 +11,11 @@
 
 - name: Prep Critical Role Downloads
   include: critRole.yml
+
+- name: Create rclone cronjob to backup paperless documents
+  cron:
+    name: "rclone paperless backup"
+    weekday: "*"
+    hour: "*/4"
+    minute: "0"
+    job: "/usr/local/bin/rclone copy /home/dtm/docker/paperless/data/media/documents gdrive:/rcloneTestAnsible >> /home/dtm/rcloneLog.txt 2>&1"

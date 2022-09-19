@@ -1,0 +1,21 @@
+homeassistant: true
+
+# todo set per to false once migration completed
+# allow new devices to join
+permit_join: true
+
+mqtt:
+  base_topic: zigbee2mqtt
+  server: 'mqtt://{{mqttServer.ip}}'
+  user: {{mqttServer.user}}
+  password: {{mqttServer.password}}
+serial:
+  port: /dev/ttyACM0
+
+advanced:
+  network_key: {{zigbeeNetworkKey}}
+
+frontend: true
+
+devices: devices.yaml
+groups: groups.yaml

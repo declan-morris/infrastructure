@@ -65,6 +65,8 @@
       become: true
     - role: plex
       become: true
+    - role: zigbee2mqtt
+      become: true
     - role: artis3n.tailscale
       vars:
         tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"

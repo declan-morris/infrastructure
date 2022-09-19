@@ -1,0 +1,3 @@
+---
+- name: z2mqtt docker container
+  include: docker-z2mqtt.yml

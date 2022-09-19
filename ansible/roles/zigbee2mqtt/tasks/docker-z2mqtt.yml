@@ -1,0 +1,25 @@
+- name: Creates docker directory
+  file:
+    path: /home/dtm/docker/compose-z2mqtt
+    state: directory
+
+- name: Copy compose source templates for z2mqtt
+  template:
+    src: files/docker/z2mqtt/docker-compose.yml
+    dest: /home/dtm/docker/compose-z2mqtt/docker-compose.yml
+    
+- name: Copy env source templates for z2mqtt
+  template:
+    src: files/docker/z2mqtt/.env
+    dest: /home/dtm/docker/compose-z2mqtt/.env
+
+- name: Copy z2mqtt configuration yaml
+  template:
+    src: files/zigbee2mqtt/configuration.yml
+    dest: /home/dtm/docker/zigbee2mqtt/configuration.yaml
+
+- name: Create and start z2mqtt services
+  docker_compose:
+    project_src: /home/dtm/docker/compose-z2mqtt
+    pull: yes
+  register: output

@@ -1,0 +1,24 @@
+
+
+- hosts: devopsAgent
+  remote_user: declan.morris
+  vars:
+    oh_my_zsh_install: yes
+    zsh_plugin: ohmyzsh
+    configureZSH: true
+    p10k_users:
+      - declan.morris
+    users:
+      - username: declan.morris
+        oh_my_zsh:
+          plugins:
+            - git
+            - docker
+            - docker-compose
+            - aliases
+            # probably wants k8s here and other shindigs
+
+  roles:
+    - role: gantsign.oh-my-zsh
+    - role: diodonfrost.p10k
+    # - role: p10k

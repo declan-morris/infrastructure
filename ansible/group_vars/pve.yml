@@ -6,6 +6,7 @@ package_list:
   - name: lm-sensors
   - name: python3
   - name: python3-pip
+  - name: tmux
 
 # telegraf
 telegraf_influxdb_urls:

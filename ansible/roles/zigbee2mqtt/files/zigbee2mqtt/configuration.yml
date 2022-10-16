@@ -2,7 +2,7 @@ homeassistant: true
 
 # todo set per to false once migration completed
 # allow new devices to join
-permit_join: true
+permit_join: false
 
 mqtt:
   base_topic: zigbee2mqtt

@@ -339,6 +339,18 @@ services:
     networks:
       - reverseProxy
 
+  audiobookshelf:
+      image: ghcr.io/advplyr/audiobookshelf:latest
+      environment:
+        - AUDIOBOOKSHELF_UID=${PUID}
+        - AUDIOBOOKSHELF_GID=${PGID}
+      ports:
+        - 13378:80
+      volumes:
+        - /storage/data/media/audiobooks:/audiobooks
+        - ${DOCKERDIR}/audiobookshelf/config:/config
+        - ${DOCKERDIR}/audiobookshelf/metadata
+
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
   #   container_name: "plex-meta-manager"

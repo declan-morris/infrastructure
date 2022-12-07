@@ -20,7 +20,7 @@ resource "proxmox_lxc" "soleria" {
 
   rootfs {
     storage = "local-lvm"
-    size    = "60G"
+    size    = "90G"
   }
 
   network {

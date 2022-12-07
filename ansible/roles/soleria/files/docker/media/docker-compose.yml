@@ -334,30 +334,80 @@ services:
 
   playwright-chrome:
     hostname: playwright-chrome
+    container_name: changedetection-playwright-chrome
     image: browserless/chrome
     restart: unless-stopped
     networks:
       - reverseProxy
 
   audiobookshelf:
-      image: ghcr.io/advplyr/audiobookshelf:latest
-      environment:
-        - AUDIOBOOKSHELF_UID=${PUID}
-        - AUDIOBOOKSHELF_GID=${PGID}
-      ports:
-        - 13378:80
-      volumes:
-        - /storage/data/media/audiobooks:/audiobooks
-        - ${DOCKERDIR}/audiobookshelf/config:/config
-        - ${DOCKERDIR}/audiobookshelf/metadata
-      labels:
-        - traefik.enable=true
-        - traefik.http.routers.audiobookshelf.rule=Host(`audiobookshelf.soleria.net`)
-        - traefik.http.routers.audiobookshelf.tls.certresolver=le
-        - traefik.http.routers.audiobookshelf.entrypoints=websecure
-        - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
-      networks:
+    container_name: audiobookshelf
+    image: ghcr.io/advplyr/audiobookshelf:latest
+    environment:
+      - AUDIOBOOKSHELF_UID=${PUID}
+      - AUDIOBOOKSHELF_GID=${PGID}
+    ports:
+      - 13378:80
+    volumes:
+      - /storage/data/media/audiobooks:/audiobooks
+      - ${DOCKERDIR}/audiobookshelf/config:/config
+      - ${DOCKERDIR}/audiobookshelf/metadata
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.audiobookshelf.rule=Host(`audiobookshelf.soleria.net`)
+      - traefik.http.routers.audiobookshelf.tls.certresolver=le
+      - traefik.http.routers.audiobookshelf.entrypoints=websecure
+      - traefik.http.services.audiobookshelf.loadbalancer.server.port=80
+    networks:
       - reverseProxy
+
+  tandoor-db:
+    image: postgres:11-alpine
+    container_name: tandoor-db
+    volumes:
+      - ${DOCKERDIR}/tandoor/db:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - tandoor
+    env_file:
+      - ./.tandoor.env
+
+  tandoor:
+    image: vabene1111/recipes
+    container_name: tandoor
+    hostname: tandoor
+    volumes:
+      - ${DOCKERDIR}/tandoor/static:/opt/recipes/staticfiles
+      - ${DOCKERDIR}/tandoor/media:/opt/recipes/mediafiles
+    depends_on:
+      - tandoor-db
+    restart: unless-stopped
+    networks:
+      - tandoor
+    env_file:
+      - ./.tandoor.env
+
+  tandoor-nginx:
+    image: nginx:mainline-alpine
+    container_name: tandoor-nginx
+    labels:
+      - traefik.enable=true
+      - traefik.http.routers.tandoor.rule=Host(`tandoor.soleria.net`)
+      - traefik.http.routers.tandoor.tls.certresolver=le
+      - traefik.http.routers.tandoor.entrypoints=websecure
+      - traefik.http.services.tandoor.loadbalancer.server.port=80
+    volumes:
+      - ${DOCKERDIR}/tandoor/static:/static:ro
+      - ${DOCKERDIR}/tandoor/media:/media:ro
+      - ${DOCKERDIR}/tandoor/nginx/conf.d:/etc/nginx/conf.d:ro
+    depends_on:
+      - tandoor
+    restart: unless-stopped
+    networks:
+      - tandoor
+      - reverseProxy
+    env_file:
+      - ./.tandoor.env
 
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"
@@ -373,3 +423,7 @@ services:
 
 networks:
   reverseProxy: {}
+  tandoor: {}
+
+volumes:
+  nginx_config: {}

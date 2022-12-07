@@ -13,6 +13,21 @@
     src: files/docker/media/.env
     dest: /home/dtm/docker/compose-media/.env
 
+- name: Copy tandoor.env source templates
+  template:
+    src: files/docker/media/.tandoor.env
+    dest: /home/dtm/docker/compose-media/.tandoor.env
+
+- name: Creates directory for tandoor
+  file:
+    path: /home/dtm/docker/tandoor/nginx/conf.d
+    state: directory
+
+- name: Copy tandoor nginx conf template
+  template:
+    src: files/docker/media/tandoor.nginx.conf
+    dest: /home/dtm/docker/tandoor/nginx/conf.d/Recipes.conf
+
 - name: Create config directory
   file:
     path: /home/dtm/docker/traefik/

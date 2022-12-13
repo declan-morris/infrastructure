@@ -1,0 +1,12 @@
+---
+
+- name: Copy letsencrypt nginx conf file
+  template:
+    src: files/letsencrypt.conf
+    dest: /etc/nginx/snippets/letsencrypt.conf
+  register: nginxConfigChanged
+
+- name: Creates letsencrypt directory
+  file:
+    path: /var/www/letsencrypt
+    state: directory

@@ -1,5 +1,8 @@
 - name: docker
   include: docker.yml
 
+- name: Add letencrypt configuration directory
+  include: letsencrypt.yml
+
 - name: nginx
   include: nginx.yml

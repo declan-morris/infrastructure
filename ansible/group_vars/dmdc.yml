@@ -8,9 +8,10 @@ certbot_auto_renew_minute: "03"
 certbot_auto_renew_hour: "5"
 certbot_create_if_missing: true
 
+certbot_auto_renew_options: --quiet --no-self-upgrade --nginx
+
 certbot_create_method: standalone
-certbot_create_standalone_stop_services:
-  - nginx
+certbot_create_standalone_stop_services: []
 certbot_testmode: false
 
 certbot_certs:

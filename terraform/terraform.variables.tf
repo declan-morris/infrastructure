@@ -4,6 +4,10 @@ variable "localSubnet" {
 }
 
 variable "CLOUDFLARE_ACCOUNT_ID" {
-  description = "value"
+  description = "Account ID for cloudflare"
   sensitive   = true
+}
+
+variable "CLOUDFLARE_EMAIL_DMARC_ALERT" {
+  description = "Email alert for dmarc on cloudflare"
 }

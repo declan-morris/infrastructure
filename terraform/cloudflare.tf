@@ -54,45 +54,23 @@ resource "cloudflare_record" "declanmorris-comWildcardRecord" {
   proxied = false
 }
 
-# resource "cloudflare_list" "redirectwww_to_apex" {
-#   account_id  = var.CLOUDFLARE_ACCOUNT_ID
-#   name        = "redirectwww_to_apex"
-#   description = "Redirects www to @"
-#   kind        = "redirect"
+resource "cloudflare_record" "spf" {
+  zone_id = data.cloudflare_zone.declanmorris-com.zone_id
+  name    = "@"
+  value   = "v=spf1 -all"
+  type    = "TXT"
+}
 
-#   item {
-#     value {
-#       redirect {
-#         source_url            = "www.declan.com/"
-#         target_url            = "https://declanmorris.com"
-#         include_subdomains    = "enabled"
-#         subpath_matching      = "enabled"
-#         status_code           = 301
-#         preserve_query_string = "enabled"
-#         preserve_path_suffix  = "disabled"
-#       }
-#     }
-#   }
-# }
+resource "cloudflare_record" "dkim" {
+  zone_id = data.cloudflare_zone.declanmorris-com.zone_id
+  name    = "*._domainkey"
+  value   = "v=DKIM1; p="
+  type    = "TXT"
+}
 
-# resource "cloudflare_ruleset" "redirectwww_to_apexRule" {
-#   account_id  = var.CLOUDFLARE_ACCOUNT_ID
-#   name        = "redirects"
-#   description = "Redirect ruleset"
-#   kind        = "root"
-#   phase       = "http_request_redirect"
-
-#   rules {
-#     action = "redirect"
-#     action_parameters {
-#       from_list {
-#         name = cloudflare_list.redirectwww_to_apex.name
-#         key  = "http.request.full_uri"
-#       }
-#     }
-
-#     expression  = format("http.request.full_uri in $%s", cloudflare_list.redirectwww_to_apex.name)
-#     description = "Apply redirects from ${cloudflare_list.redirectwww_to_apex.name}"
-#     enabled     = true
-#   }
-# }
+resource "cloudflare_record" "dmarc" {
+  zone_id = data.cloudflare_zone.declanmorris-com.zone_id
+  name    = "_dmarc"
+  value   = "v=DMARC1; p=reject; rua=mailto:${var.CLOUDFLARE_EMAIL_DMARC_ALERT}; ruf=mailto:${var.CLOUDFLARE_EMAIL_DMARC_ALERT}; fo=1:d:s"
+  type    = "TXT"
+}

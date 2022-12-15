@@ -20,6 +20,7 @@ export ARM_TENANT_ID=$(bw get password azure-terraform-tenantid --session $BW_SE
 # cloudflare
 export CLOUDFLARE_API_TOKEN=$(bw get password cloudflare-terraform-apitoken --session $BW_SESSION)
 export TF_VAR_CLOUDFLARE_ACCOUNT_ID=$(bw get password cloudflare-terraform-account-id --session $BW_SESSION)
+export TF_VAR_CLOUDFLARE_EMAIL_DMARC_ALERT=$(bw get password cloudflare-terraform-email-dmarc-alert --session $BW_SESSION)
 
 #kill the bw session?
 bw lock --quiet

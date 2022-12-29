@@ -7,6 +7,7 @@ package_list:
   - name: python3
   - name: python3-pip
   - name: tmux
+  - name: fdisk
 
 # telegraf
 telegraf_influxdb_urls:
@@ -39,3 +40,9 @@ telegraf_plugins_base:
 
 nfs_exports:
   - "/storage/data *(rw,sync,no_root_squash)"
+
+snapraid_parity_disks:
+  - { path: /mnt/parity1, diskbyid: /dev/disk/by-id/ata-WDC_WD180EDGZ-11B2DA0_3MGKEL6U-part1, fs: ext4, opts: defaults, content: false }
+
+snapraid_data_disks:
+  - { path: /mnt/disk1, diskbyid: /dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1, fs: ext4, opts: defaults, content: true }

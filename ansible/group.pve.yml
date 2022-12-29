@@ -1,39 +1,69 @@
 ---
 
-# - hosts: pve
-#   tasks:
-#   - name: ensure dtm present
-#     user:
-#       name: dtm
-#       groups: sudo
-#       append: true
-#     become: true
+- hosts: pve
+  tasks:
+  - name: ensure dtm present
+    user:
+      name: dtm
+      groups: sudo
+      append: true
+    become: true
 
-#   - name: Allow 'dtm' group to have passwordless sudo
-#     lineinfile:
-#       dest: /etc/sudoers
-#       state: present
-#       regexp: "^%dtm"
-#       line: "%dtm ALL=(ALL) NOPASSWD: ALL"
-#       validate: "visudo -cf %s"
+  - name: Install sudo
+    apt:
+      name: sudo
+      state: latest
 
-#   - name: import github ssh keys
-#     authorized_key:  
-#       user: "dtm"
-#       state: present
-#       key: https://github.com/declan-morris.keys
-#     become: true
+  - name: Allow 'dtm' group to have passwordless sudo
+    lineinfile:
+      dest: /etc/sudoers
+      state: present
+      regexp: "^%dtm"
+      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+      validate: "visudo -cf %s"
+    become: true
 
-# - hosts: pve
-#   remote_user: dtm
-#   roles:
-#     - role: proxmox
-#       become: yes
-#     - role: grog.package
-#       become: yes
+  - name: import github ssh keys
+    authorized_key:  
+      user: "dtm"
+      state: present
+      key: https://github.com/declan-morris.keys
+    become: true
 
+  - name: create /mnt points
+    file:
+      dest: "{{ item.path }}"
+      state: directory
+      owner: nobody
+      group: nogroup
+      mode: 0777
+    with_items: 
+      - "{{ snapraid_parity_disks }}"
+      - "{{ snapraid_data_disks }}"
+    become: true
 
-# telegraf_configuration_template: telegraf.conf.j2
+  - name: mount disks
+    mount:
+      name: "{{ item.path }}"
+      src: "{{ item.diskbyid }}"
+      fstype: "{{ item.fs }}"
+      opts: "{{ item.opts }}"
+      # change to 'mounted' to auto mount
+      state: present
+      # state: mounted?
+    with_items:
+      - "{{ snapraid_parity_disks }}"
+      - "{{ snapraid_data_disks }}"
+    become: true
+
+- hosts: pve
+  remote_user: dtm
+  roles:
+    - role: proxmox
+      become: yes
+    - role: grog.package
+      become: yes
+
 - hosts: pve
   remote_user: dtm
   roles:
@@ -42,35 +72,35 @@
     - role: geerlingguy.docker
       become: true
 
-- hosts: pve # maybe this should be asimov role so it's specific to the machine?
-  tasks:
-  - name: create /mnt points
-    file:
-      dest: "/storage"
-      state: directory
-      owner: nobody
-      group: nogroup
-      mode: 0777
+# - hosts: pve # maybe this should be asimov role so it's specific to the machine?
+#   tasks:
+#   - name: create /mnt points
+#     file:
+#       dest: "/storage"
+#       state: directory
+#       owner: nobody
+#       group: nogroup
+#       mode: 0777
 
-  - name: mount disk
-    mount:
-      name: "/storage"
-      src: "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1"
-      fstype: "ext4"
-      opts: "defaults"
-      # change to 'mounted' to auto mount
-      state: mounted
+#   - name: mount disk
+#     mount:
+#       name: "/storage"
+#       src: "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1"
+#       fstype: "ext4"
+#       opts: "defaults"
+#       # change to 'mounted' to auto mount
+#       state: mounted
   
-- hosts: pve
-  roles:
-    - role: geerlingguy.nfs
-      become: true
-    - role: plex
-      become: true
-    - role: zigbee2mqtt
-      become: true
-    - role: artis3n.tailscale
-      vars:
-        tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
-      become: yes
-    - role: stefangweichinger.ansible_rclone
+# - hosts: pve
+#   roles:
+#     - role: geerlingguy.nfs
+#       become: true
+#     - role: plex
+#       become: true
+#     - role: zigbee2mqtt
+#       become: true
+#     - role: artis3n.tailscale
+#       vars:
+#         tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
+#       become: yes
+#     - role: stefangweichinger.ansible_rclone

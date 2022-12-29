@@ -3,6 +3,7 @@
 
 [pve:vars]
 ansible_ssh_user={{  machineCreds.pve.user  }}
+; ansible_ssh_user="root"
 ; ansible_ssh_pass={{  machineCreds.pve.password  }}
 
 [saturn]

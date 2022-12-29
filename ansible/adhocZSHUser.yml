@@ -1,15 +1,15 @@
 
 
-- hosts: devopsAgent
-  remote_user: declan.morris
+- hosts: pve
+  remote_user: dtm
   vars:
     oh_my_zsh_install: yes
     zsh_plugin: ohmyzsh
     configureZSH: true
     p10k_users:
-      - declan.morris
+      - dtm
     users:
-      - username: declan.morris
+      - username: dtm
         oh_my_zsh:
           plugins:
             - git
@@ -21,4 +21,4 @@
   roles:
     - role: gantsign.oh-my-zsh
     - role: diodonfrost.p10k
-    # - role: p10k
+    - role: p10k

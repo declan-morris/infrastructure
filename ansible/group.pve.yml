@@ -91,9 +91,9 @@
     #   become: true
     - role: geerlingguy.docker
       become: true
-    - role: ironicbadger.snapraid
-      become: true
-
+    # - role: ironicbadger.snapraid
+    #   become: true
+    - role: stefangweichinger.ansible_rclone
 
 # - hosts: pve
 #   roles:
@@ -107,4 +107,3 @@
 #       vars:
 #         tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
 #       become: yes
-#     - role: stefangweichinger.ansible_rclone

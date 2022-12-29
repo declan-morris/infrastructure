@@ -1,20 +1,20 @@
 - name: Creates docker directory
   file:
-    path: /home/dtm/docker/compose-plex
+    path: /home/dtm/docker/plex
     state: directory
 
 - name: Copy compose source templates for plex
   template:
     src: files/docker/plex/docker-compose.yml
-    dest: /home/dtm/docker/compose-plex/docker-compose.yml
+    dest: /home/dtm/docker/plex/docker-compose.yml
     
 - name: Copy env source templates for plex
   template:
     src: files/docker/plex/.env
-    dest: /home/dtm/docker/compose-plex/.env
+    dest: /home/dtm/docker/plex/.env
 
 - name: Create and start plex services
   docker_compose:
-    project_src: /home/dtm/docker/compose-plex
+    project_src: /home/dtm/docker/plex
     pull: yes
   register: output

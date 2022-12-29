@@ -9,3 +9,8 @@
 - name: Install docker python package - required for ansible docker compose
   pip:
     name: docker
+
+- name: Creates docker directory
+  file:
+    path: /opt/docker
+    state: directory

@@ -36,17 +36,6 @@ telegraf_plugins_base:
   - name: processes
   - name: hddtemp
   - name: sensors
-  # - name: ping
-  #   options:
-  #     urls: ["1.1.1.1"]
-  # - name: net_response
-  #   options:
-  #     protocol: "tcp"
-  #     address: "soleria:7878"
-  # - name: net_response
-  #   options:
-  #     protocol: "tcp"
-  #     address: "soleria:8989"
 
 nfs_exports:
-  - "/storage/data *(rw,sync,no_root_squash)" 
+  - "/storage/data *(rw,sync,no_root_squash)"

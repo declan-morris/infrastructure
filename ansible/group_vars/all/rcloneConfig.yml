@@ -1,0 +1,7 @@
+rclone_configs:
+  - name: gdrive
+    properties:
+      type: drive
+      client_id: "{{rCloneGoogleDriveApp.clientId}}"
+      client_secret: "{{rCloneGoogleDriveApp.clientSecret}}"
+      token: "{{rCloneGoogleDriveApp.token}}"

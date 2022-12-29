@@ -1,42 +1,44 @@
 ---
 
-- hosts: pve
-  tasks:
-  - name: ensure dtm present
-    user:
-      name: dtm
-      groups: sudo
-      append: true
-    become: true
+# - hosts: pve
+#   tasks:
+#   - name: ensure dtm present
+#     user:
+#       name: dtm
+#       groups: sudo
+#       append: true
+#     become: true
 
-  - name: Allow 'dtm' group to have passwordless sudo
-    lineinfile:
-      dest: /etc/sudoers
-      state: present
-      regexp: "^%dtm"
-      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
-      validate: "visudo -cf %s"
+#   - name: Allow 'dtm' group to have passwordless sudo
+#     lineinfile:
+#       dest: /etc/sudoers
+#       state: present
+#       regexp: "^%dtm"
+#       line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+#       validate: "visudo -cf %s"
 
-  - name: import github ssh keys
-    authorized_key:  
-      user: "dtm"
-      state: present
-      key: https://github.com/declan-morris.keys
-    become: true
+#   - name: import github ssh keys
+#     authorized_key:  
+#       user: "dtm"
+#       state: present
+#       key: https://github.com/declan-morris.keys
+#     become: true
 
+# - hosts: pve
+#   remote_user: dtm
+#   roles:
+#     - role: proxmox
+#       become: yes
+#     - role: grog.package
+#       become: yes
+
+
+# telegraf_configuration_template: telegraf.conf.j2
 - hosts: pve
   remote_user: dtm
   roles:
-    - role: proxmox
-      become: yes
-    - role: grog.package
-      become: yes
-
-- hosts: pve
-  remote_user: dtm
-  roles:
-    - role: rossmcdonald.telegraf
-      become: true
+    # - role: rossmcdonald.telegraf
+    #   become: true
     - role: geerlingguy.docker
       become: true
 
@@ -71,3 +73,4 @@
       vars:
         tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
       become: yes
+    - role: stefangweichinger.ansible_rclone

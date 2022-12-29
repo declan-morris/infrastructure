@@ -91,9 +91,10 @@
     #   become: true
     - role: geerlingguy.docker
       become: true
+    - role: ironicbadger.snapraid
+      become: true
 
 
-  
 # - hosts: pve
 #   roles:
 #     - role: geerlingguy.nfs

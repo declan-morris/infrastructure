@@ -51,3 +51,23 @@ snapraid_parity_disks:
 
 snapraid_data_disks:
   - { path: /mnt/disk1, diskbyid: /dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1, fs: ext4, opts: defaults, content: true }
+
+# snapraid
+snapraid_config_excludes:
+  - "*.unrecoverable"
+  - "/tmp/"
+  - "/lost+found/"
+  - "downloads/"
+  - "appdata/"
+  - "*.!sync"
+  - ".AppleDouble"
+  - "._AppleDouble"
+  - ".DS_Store"
+  - "._.DS_Store"
+  - ".Thumbs.db"
+  - ".fseventsd"
+  - ".Spotlight-V100"
+  - ".TemporaryItems"
+  - ".Trashes"
+  - ".AppleDB"
+  - ".nfo"

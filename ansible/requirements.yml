@@ -9,3 +9,4 @@
 - src: artis3n.tailscale
 - src: geerlingguy.certbot
 - src: stefangweichinger.ansible_rclone
+- src: ironicbadger.snapraid

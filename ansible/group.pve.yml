@@ -56,6 +56,26 @@
       - "{{ snapraid_data_disks }}"
     become: true
 
+  - name: create /storage 
+    file:
+      dest: "/storage"
+      state: directory
+      owner: nobody
+      group: nogroup
+      mode: 0777
+    become: true
+
+  - name: mount mergerfs array
+    mount:
+      name: "{{ item.mountpoint }}"
+      src: "{{ item.source }}"
+      opts: "{{ item.opts }}"
+      fstype: "{{ item.fs }}"
+      state: present
+    with_items:
+      - "{{ fstab_mergerfs }}"
+    become: true
+
 - hosts: pve
   remote_user: dtm
   roles:
@@ -72,24 +92,7 @@
     - role: geerlingguy.docker
       become: true
 
-# - hosts: pve # maybe this should be asimov role so it's specific to the machine?
-#   tasks:
-#   - name: create /mnt points
-#     file:
-#       dest: "/storage"
-#       state: directory
-#       owner: nobody
-#       group: nogroup
-#       mode: 0777
 
-#   - name: mount disk
-#     mount:
-#       name: "/storage"
-#       src: "/dev/disk/by-id/ata-WDC_WD140EDFZ-11A0VA0_9LG2BHVA-part1"
-#       fstype: "ext4"
-#       opts: "defaults"
-#       # change to 'mounted' to auto mount
-#       state: mounted
   
 # - hosts: pve
 #   roles:

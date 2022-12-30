@@ -95,11 +95,11 @@
     #   become: true
     - role: stefangweichinger.ansible_rclone
 
-# - hosts: pve
-#   roles:
+- hosts: pve
+  roles:
+    - role: plex
+      become: true
 #     - role: geerlingguy.nfs
-#       become: true
-#     - role: plex
 #       become: true
 #     - role: zigbee2mqtt
 #       become: true

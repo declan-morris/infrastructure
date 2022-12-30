@@ -1,0 +1,29 @@
+# repos:
+# - repo: https://github.com/pre-commit/pre-commit-hooks
+#   rev: v2.3.0
+#   hooks:
+#     - id: check-yaml
+#       name: Validate yaml in repo
+#       files: '.*\.ya{0,1}ml'
+#     - id: trailing-whitespace
+
+# - repo: https://github.com/antonbabenko/pre-commit-terraform
+#   rev: v1.76.0
+#   hooks:
+#     - id: terraform_fmt
+#     # - id: terraform_tflint
+#     #   args:
+#     #     - --args=--enable-rule=terraform_documented_variables
+#     #     - --args=--enable-rule=terraform_documented_outputs
+#     # - id: terraform_checkov
+
+# - repo: https://github.com/ansible/ansible-lint
+#   rev: v6.9.1
+#   hooks:
+#     - id: ansible-lint
+#       args:
+#         - --config-file=ansible/.ansible-lint
+#         - --project-dir=ansible
+#         - --write=all
+#       files: 'ansible/.*'
+

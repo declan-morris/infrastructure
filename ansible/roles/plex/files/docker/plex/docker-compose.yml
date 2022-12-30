@@ -25,7 +25,7 @@ services:
       - PLEX_UID=${PUID}
       - PLEX_GID=${PGID}
       - ADVERTISE_IP="http://{{ ansible_default_ipv4.address }}:32400/"
-      - PLEX_CLAIM=claim-kn2zwkvYqC6fq7yhmCRh
+      - PLEX_CLAIM=claim-7pgCniLJB9w2MqhR4A8j
     devices:
       - "/dev/dri:/dev/dri"
 

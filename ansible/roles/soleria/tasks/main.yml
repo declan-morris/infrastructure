@@ -4,18 +4,18 @@
   include: dockerPrepare.yml
 
 - name: Media docker containers
-  include: docker-media.yml
+  include: docker-services.yml
 
-- name: Backup docker containers
-  include: docker-backups.yml
+# - name: Backup docker containers
+#   include: docker-backups.yml
 
-- name: Prep Critical Role Downloads
-  include: critRole.yml
+# - name: Prep Critical Role Downloads
+#   include: critRole.yml
 
-- name: Create rclone cronjob to backup paperless documents
-  cron:
-    name: "rclone paperless backup"
-    weekday: "*"
-    hour: "*/4"
-    minute: "0"
-    job: "/usr/local/bin/rclone copy /home/dtm/docker/paperless/data/media/documents gdrive:/rcloneTestAnsible >> /home/dtm/rcloneLog.txt 2>&1"
+# - name: Create rclone cronjob to backup paperless documents
+#   cron:
+#     name: "rclone paperless backup"
+#     weekday: "*"
+#     hour: "*/4"
+#     minute: "0"
+#     job: "/usr/local/bin/rclone copy /home/dtm/docker/paperless/data/media/documents gdrive:/rcloneTestAnsible >> /home/dtm/rcloneLog.txt 2>&1"

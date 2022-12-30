@@ -1,46 +1,46 @@
 - name: Creates docker directory for media
   file:
-    path: /home/dtm/docker/compose-media
+    path: /home/dtm/docker/services
     state: directory
 
 - name: Copy compose source templates for media
   template:
-    src: files/docker/media/docker-compose.yml
-    dest: /home/dtm/docker/compose-media/docker-compose.yml
+    src: files/docker/services/docker-compose.yml
+    dest: /home/dtm/docker/services/docker-compose.yml
     
 - name: Copy env source templates for media
   template:
-    src: files/docker/media/.env
-    dest: /home/dtm/docker/compose-media/.env
+    src: files/docker/services/.env
+    dest: /home/dtm/docker/services/.env
 
 - name: Copy tandoor.env source templates
   template:
-    src: files/docker/media/.tandoor.env
-    dest: /home/dtm/docker/compose-media/.tandoor.env
+    src: files/docker/services/.tandoor.env
+    dest: /home/dtm/docker/services/.tandoor.env
 
 - name: Creates directory for tandoor
   file:
-    path: /home/dtm/docker/tandoor/nginx/conf.d
+    path: /opt/docker/tandoor/nginx/conf.d
     state: directory
 
 - name: Copy tandoor nginx conf template
   template:
-    src: files/docker/media/tandoor.nginx.conf
-    dest: /home/dtm/docker/tandoor/nginx/conf.d/Recipes.conf
+    src: files/docker/services/tandoor.nginx.conf
+    dest: /opt/docker/tandoor/nginx/conf.d/Recipes.conf
 
 - name: Create config directory
   file:
-    path: /home/dtm/docker/traefik/
+    path: /opt/docker/traefik/
     state: directory
 
 - name: Install config
   template:
     src: files/traefik/traefik.yml
-    dest: /home/dtm/docker/traefik/traefik.yml
+    dest: /opt/docker/traefik/traefik.yml
 
 - name: Create and start media services 
   docker_compose:
-    project_src: /home/dtm/docker/compose-media
+    project_src: /home/dtm/docker/services
     pull: yes
   register: output
 

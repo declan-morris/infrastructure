@@ -28,17 +28,17 @@ settings:                                       # Can be individually specified 
   ignore_ids:
   ignore_imdb_ids:
 plex:                                           # Can be individually specified per library as well
-  url: {{  plex.url  }} #TODO CHANGE THIS TO THE SOLERIA IP http://192.168.86.249:32400
-  token: {{  plex.token  }} #TODO ADD BACK IN WHEN PMM IS BACK ON
+  url: {{  plex.url  }}
+  token: {{  plex.token  }}
   timeout: 60
   clean_bundles: false
   empty_trash: false
   optimize: false
 tmdb:
-  apikey: {{ tmdb.apiKey }} #TODO confirm this works when PMM is online
+  apikey: {{ tmdb.apiKey }}
   language: en
 radarr:
-  url: http://192.168.86.249:7878 TODO change to soleria IP
+  url: http://192.168.86.240:7878
   token: {{  radarr.token }} #TODO confirm this works when PMM is online
   add: true
   root_folder_path: /movies

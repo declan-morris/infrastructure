@@ -417,14 +417,14 @@ services:
   #   env_file:
   #     - ./.tandoor.env
 
-  # plex-meta-manager:
-  #   image: "meisnate12/plex-meta-manager"
-  #   container_name: "plex-meta-manager"
-  #   volumes:
-  #     - ${DOCKERDIR}/plexMetaManager:/config
-  #   restart: always
-  #   environment:
-  #     - PUID=${PUID}
-  #     - PGID=${PGID}
-  #     - TZ=${TZ}
-  #     - PMM_RUN=TRUE 
+  plex-meta-manager:
+    image: "meisnate12/plex-meta-manager"
+    container_name: "plex-meta-manager"
+    volumes:
+      - ${DOCKERDIR}/plexMetaManager:/config
+    restart: always
+    environment:
+      - PUID=${PUID}
+      - PGID=${PGID}
+      - TZ=${TZ}
+      - PMM_RUN=TRUE 

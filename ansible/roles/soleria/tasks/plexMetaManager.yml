@@ -1,0 +1,24 @@
+---
+
+- name: Creates docker directory for PMM
+  file:
+    path: /opt/docker/plexMetaManager
+    state: directory
+  become: true
+
+- name: Copy PMM config template
+  template:
+    src: files/plexMetaManager/config.yml
+    dest: /opt/docker/plexMetaManager/config.yml
+
+- name: Copy PMM film template
+  template:
+    src: files/plexMetaManager/Films.yml
+    dest: /opt/docker/plexMetaManager/Films.yml
+
+- name: Copy PMM poster files
+  copy:
+    src: "{{ item }}/"
+    dest: /opt/docker/{{ item }}
+  with_items:
+    - plexMetaManager/posters

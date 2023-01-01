@@ -3,6 +3,10 @@
 - name: Prepare VM for docker
   include: dockerPrepare.yml
 
+- name: Install pre-reqs for plexMetaManager
+  include: plexMetaManager.yml
+  become: true
+
 - name: Media docker containers
   include: docker-services.yml
 

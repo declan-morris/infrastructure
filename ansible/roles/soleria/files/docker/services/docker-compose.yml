@@ -1,4 +1,12 @@
 version : "3.8"
+
+networks:
+  reverseProxy: {}
+  tandoor: {}
+
+volumes:
+  nginx_config: {}
+
 services:
 ## to check if it's working curl https://api.nordvpn.com/vpn/check/full
   nordvpn:
@@ -420,10 +428,3 @@ services:
   #     - PGID=${PGID}
   #     - TZ=${TZ}
   #     - PMM_RUN=TRUE 
-
-networks:
-  reverseProxy: {}
-  tandoor: {}
-
-volumes:
-  nginx_config: {}

@@ -51,6 +51,10 @@ collections:
     template: {name: Collection, collection: 448150, movie: 567604}
   Die Hard:
     template: {name: Collection, collection: 1570}
+  Doctor Strange:
+    template: {name: Collection, collection: 618529}
+  Finding Nemo:
+    template: {name: Collection, collection: 137697}
   Godzilla:
     template: {name: Collection, collection: 535313}
   Guardians of the Galaxy:
@@ -68,6 +72,12 @@ collections:
     template: {name: Collection, collection: 131635}
   The Hobbit:
     template: {name: Collection, collection: 121938}
+  Ice Age:
+    template: {name: Collection, collection: 8354}
+  Inbetweeners:
+    template: {name: Collection, collection: 279959}
+  Incredibles:
+    template: {name: Collection, collection: 468222}
   Iron Man:
     template: {name: Collection, collection: 131292}
   It:
@@ -76,12 +86,20 @@ collections:
     template: {name: Collection, collection: 404609}
   Jump Street:
     template: {name: Collection, collection: 212562}
+  Jackass:
+    template: {name: Collection, collection: 17178}
   Kill Bill:
     template: {name: Collection, collection: 2883}
   Kingsman:
     template: {name: Collection, collection: 391860}
+  Kung Fu Panda:
+    template: {name: Collection, collection: 77816}
+  Madagscar:
+    template: {name: Collection, collection: 14740}
   The Lord of the Rings:
     template: {name: Collection, collection: 119}
+  Lion King:
+    template: {name: Collection, collection: 94032}
   The Matrix:
     template: {name: Collection, collection: 2344}
   Pacific Rim:
@@ -92,6 +110,8 @@ collections:
     template: {name: Collection, collection: 173710}
   Sherlock Holmes:
     template: {name: Collection, collection: 102322}
+  Shrek:
+    template: {name: Collection, collection: 2150}
   Spider-Man (Avengers):
     template: {name: Collection, collection: 531241}
   Star Trek:
@@ -100,6 +120,8 @@ collections:
     template: {name: Collection, collection: 449462}
   Thor:
     template: {name: Collection, collection: 131296}
+  Toy Story:
+    template: {name: Collection, collection: 10194}  
   Unbreakable:
     template: {name: Collection}
     imdb_list: https://www.imdb.com/list/ls022101006/

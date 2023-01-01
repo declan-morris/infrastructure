@@ -39,7 +39,7 @@ tmdb:
   language: en
 radarr:
   url: http://192.168.86.240:7878
-  token: {{  radarr.token }} #TODO confirm this works when PMM is online
+  token: {{ radarr.token }}
   add: true
   root_folder_path: /movies
   monitor: true
@@ -47,6 +47,7 @@ radarr:
   quality_profile: HD - 720p/1080p
   tag: pmm
   search: false
-  add_existing: false
+  add_existing: true
+  add_missing: true
   radarr_path:
   plex_path:

@@ -294,7 +294,7 @@ services:
     volumes:
       - ${DOCKERDIR}/lidarr:/config
       - /storage/data:/data
-    network_mode: service:nordvpn #7877
+    network_mode: service:nordvpn #8686
     depends_on:
       - nordvpn
     restart: unless-stopped      
@@ -307,7 +307,7 @@ services:
       - traefik.http.routers.lidarr.rule=Host(`lidarr.soleria.net`)
       - traefik.http.routers.lidarr.tls.certresolver=le
       - traefik.http.routers.lidarr.entrypoints=websecure
-      - traefik.http.services.lidarr.loadbalancer.server.port=7877
+      - traefik.http.services.lidarr.loadbalancer.server.port=8686
 
   changedetection:
     image: ghcr.io/dgtlmoon/changedetection.io:latest
@@ -361,53 +361,53 @@ services:
     networks:
       - reverseProxy
 
-  tandoor-db:
-    image: postgres:11-alpine
-    container_name: tandoor-db
-    volumes:
-      - ${DOCKERDIR}/tandoor/db:/var/lib/postgresql/data
-    restart: unless-stopped
-    networks:
-      - tandoor
-    env_file:
-      - ./.tandoor.env
+  # tandoor-db:
+  #   image: postgres:11-alpine
+  #   container_name: tandoor-db
+  #   volumes:
+  #     - ${DOCKERDIR}/tandoor/db:/var/lib/postgresql/data
+  #   restart: unless-stopped
+  #   networks:
+  #     - tandoor
+  #   env_file:
+  #     - ./.tandoor.env
 
-  tandoor:
-    image: vabene1111/recipes
-    container_name: tandoor
-    hostname: tandoor
-    volumes:
-      - ${DOCKERDIR}/tandoor/static:/opt/recipes/staticfiles
-      - ${DOCKERDIR}/tandoor/media:/opt/recipes/mediafiles
-    depends_on:
-      - tandoor-db
-    restart: unless-stopped
-    networks:
-      - tandoor
-    env_file:
-      - ./.tandoor.env
+  # tandoor:
+  #   image: vabene1111/recipes
+  #   container_name: tandoor
+  #   hostname: tandoor
+  #   volumes:
+  #     - ${DOCKERDIR}/tandoor/static:/opt/recipes/staticfiles
+  #     - ${DOCKERDIR}/tandoor/media:/opt/recipes/mediafiles
+  #   depends_on:
+  #     - tandoor-db
+  #   restart: unless-stopped
+  #   networks:
+  #     - tandoor
+  #   env_file:
+  #     - ./.tandoor.env
 
-  tandoor-nginx:
-    image: nginx:mainline-alpine
-    container_name: tandoor-nginx
-    labels:
-      - traefik.enable=true
-      - traefik.http.routers.tandoor.rule=Host(`tandoor.soleria.net`)
-      - traefik.http.routers.tandoor.tls.certresolver=le
-      - traefik.http.routers.tandoor.entrypoints=websecure
-      - traefik.http.services.tandoor.loadbalancer.server.port=80
-    volumes:
-      - ${DOCKERDIR}/tandoor/static:/static:ro
-      - ${DOCKERDIR}/tandoor/media:/media:ro
-      - ${DOCKERDIR}/tandoor/nginx/conf.d:/etc/nginx/conf.d:ro
-    depends_on:
-      - tandoor
-    restart: unless-stopped
-    networks:
-      - tandoor
-      - reverseProxy
-    env_file:
-      - ./.tandoor.env
+  # tandoor-nginx:
+  #   image: nginx:mainline-alpine
+  #   container_name: tandoor-nginx
+  #   labels:
+  #     - traefik.enable=true
+  #     - traefik.http.routers.tandoor.rule=Host(`tandoor.soleria.net`)
+  #     - traefik.http.routers.tandoor.tls.certresolver=le
+  #     - traefik.http.routers.tandoor.entrypoints=websecure
+  #     - traefik.http.services.tandoor.loadbalancer.server.port=80
+  #   volumes:
+  #     - ${DOCKERDIR}/tandoor/static:/static:ro
+  #     - ${DOCKERDIR}/tandoor/media:/media:ro
+  #     - ${DOCKERDIR}/tandoor/nginx/conf.d:/etc/nginx/conf.d:ro
+  #   depends_on:
+  #     - tandoor
+  #   restart: unless-stopped
+  #   networks:
+  #     - tandoor
+  #     - reverseProxy
+  #   env_file:
+  #     - ./.tandoor.env
 
   # plex-meta-manager:
   #   image: "meisnate12/plex-meta-manager"

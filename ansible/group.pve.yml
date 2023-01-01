@@ -91,14 +91,15 @@
     #   become: true
     - role: geerlingguy.docker
       become: true
-    # - role: ironicbadger.snapraid
-    #   become: true
+    - role: ironicbadger.snapraid
+      become: true
     - role: stefangweichinger.ansible_rclone
 
 - hosts: pve
   roles:
     - role: plex
       become: true
+    - role: soleria
 #     - role: geerlingguy.nfs
 #       become: true
 #     - role: zigbee2mqtt

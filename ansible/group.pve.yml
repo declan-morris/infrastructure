@@ -102,9 +102,9 @@
     - role: soleria
 #     - role: geerlingguy.nfs
 #       become: true
-#     - role: zigbee2mqtt
-#       become: true
-#     - role: artis3n.tailscale
-#       vars:
-#         tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24"
-#       become: yes
+    - role: zigbee2mqtt
+      become: true
+    - role: artis3n.tailscale
+      # vars:
+      #   tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24" # this has been fucking the network settings every time, disabling for now breaks even SSH??
+      become: yes

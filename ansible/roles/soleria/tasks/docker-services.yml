@@ -44,6 +44,12 @@
     pull: yes
   register: output
 
+- name: Change file permissions for acme.json as it needs to be locked down
+  file:
+    path: /opt/docker/traefik/acme.json
+    mode: '0600'
+  become: yes
+  
 - name: Prune docker images
   docker_prune:
     images: true

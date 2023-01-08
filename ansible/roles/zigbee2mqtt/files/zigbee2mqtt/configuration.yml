@@ -17,5 +17,15 @@ advanced:
 
 frontend: true
 
+availability:
+  active:
+    # Time after which an active device will be marked as offline in
+    # minutes (default = 10 minutes)
+    timeout: 10
+  passive:
+    # Time after which a passive device will be marked as offline in
+    # minutes (default = 1500 minutes aka 25 hours)
+    timeout: 120
+
 devices: devices.yaml
 groups: groups.yaml

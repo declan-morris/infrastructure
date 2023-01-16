@@ -32,11 +32,18 @@
   file:
     path: /opt/docker/traefik/
     state: directory
+    owner: dtm
+    group: dtm
+    mode: '0770'
+  become: true
 
-- name: Install config
+- name: Install traefik config file
   template:
     src: files/traefik/traefik.yml
     dest: /opt/docker/traefik/traefik.yml
+    owner: dtm
+    group: dtm
+    mode: '0660'
 
 - name: Create and start media services 
   docker_compose:

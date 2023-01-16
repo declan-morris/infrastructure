@@ -5,7 +5,7 @@ entryPoints:
       redirections:
         entryPoint:
           to: websecure
-          scheme: http
+          scheme: https
 
   websecure:
     address: :443

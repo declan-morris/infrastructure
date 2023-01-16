@@ -40,7 +40,6 @@ tmdb:
 radarr:
   url: http://192.168.86.240:7878
   token: {{ radarr.token }}
-  add: true
   root_folder_path: /movies
   monitor: true
   availability: announced

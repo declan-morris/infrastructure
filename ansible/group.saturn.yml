@@ -4,9 +4,36 @@
     # - role: geerlingguy.docker
     # - role: grog.package
     #   become: yes
-    - role: gantsign.oh-my-zsh
-      when: configureZSH
-    - role: diodonfrost.p10k
-      when: configureZSH
-    - role: p10k
-      when: configureZSH
+    # - role: gantsign.oh-my-zsh
+    #   when: configureZSH
+    # - role: diodonfrost.p10k
+    #   when: configureZSH
+    # - role: p10k
+    #   when: configureZSH
+
+- hosts: saturn
+  connection: local
+  tasks:
+  - name: Install pre-commit
+    pip:
+      name: pre-commit
+
+  - name: Install checkov 
+    pip:
+      name: checkov
+
+  - name: look for install in /usr/local
+    stat:
+      path: '/usr/local/bin/tflint'
+    changed_when: False
+    register: tflint_binary
+
+  - name: Download and install tflint
+    shell:
+      cmd: curl -s https://raw.githubusercontent.com/terraform-linters/tflint/master/install_linux.sh | bash
+    when: not tflint_binary.stat.exists
+    become: true
+
+  - name: Install ansible-lint
+    pip:
+      name: ansible-lint

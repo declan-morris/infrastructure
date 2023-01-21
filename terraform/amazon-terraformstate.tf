@@ -1,6 +1,6 @@
 resource "aws_iam_user" "terraform" {
+  #checkov:skip=CKV_AWS_273: SSO for just me doesn't make sense
   name = "terraform"
-
 }
 
 resource "aws_iam_access_key" "terraform" {
@@ -8,6 +8,7 @@ resource "aws_iam_access_key" "terraform" {
 }
 
 resource "aws_iam_user_policy" "terraform" {
+  #checkov:skip=CKV_AWS_40: Users are not going to increase in a indiviual sub
   name = "StateBucketAccess"
   user = aws_iam_user.terraform.name
 
@@ -37,6 +38,16 @@ EOF
 
 resource "aws_s3_bucket" "tfstate" {
   bucket = "terraformstate-dtm"
+}
+
+resource "aws_s3_bucket_public_access_block" "state_public_block" {
+  bucket = aws_s3_bucket.tfstate.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+
 }
 
 resource "aws_s3_bucket_acl" "tfstate-acl" {

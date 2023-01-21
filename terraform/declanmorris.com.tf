@@ -40,11 +40,13 @@ resource "tls_private_key" "bootstrapKey" {
 }
 
 resource "azurerm_linux_virtual_machine" "personalSiteVM" {
-  name                = "personalSiteVM"
-  resource_group_name = azurerm_resource_group.personalSite.name
-  location            = azurerm_resource_group.personalSite.location
-  size                = "Standard_B2s"
-  admin_username      = "dtm"
+  name                       = "personalSiteVM"
+  resource_group_name        = azurerm_resource_group.personalSite.name
+  location                   = azurerm_resource_group.personalSite.location
+  size                       = "Standard_B2s"
+  admin_username             = "dtm"
+  allow_extension_operations = false
+  provision_vm_agent         = true
 
   network_interface_ids = [
     azurerm_network_interface.personalSiteNIC.id,
@@ -93,6 +95,7 @@ resource "local_sensitive_file" "privateKey" {
 }
 
 resource "azurerm_network_security_rule" "SSHRule" {
+  #checkov:skip=CKV_AZURE_10: Allow SSH access for deployment and management
   name                        = "SSHAccess"
   priority                    = 100
   direction                   = "Inbound"
@@ -107,6 +110,7 @@ resource "azurerm_network_security_rule" "SSHRule" {
 }
 
 resource "azurerm_network_security_rule" "HTTPRule" {
+  #checkov:skip=CKV_AZURE_160: Allow http access for certbot
   name                        = "HTTP"
   priority                    = 101
   direction                   = "Inbound"

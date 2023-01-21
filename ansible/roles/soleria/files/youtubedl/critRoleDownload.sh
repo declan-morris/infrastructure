@@ -19,7 +19,7 @@ cd "$DIRECTORY"
 
 shopt -s nullglob nocaseglob extglob
 
-for FILE in *.@(webp); do 
+for FILE in *.@(webp); do
     #TODO check if png file exists and skip if so
     NEWNAME=$(echo "$FILE" | cut -f 1 -d '.')
     dwebp "$FILE" -o "${NEWNAME%.}.png";

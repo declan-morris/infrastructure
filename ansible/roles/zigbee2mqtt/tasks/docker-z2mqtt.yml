@@ -7,7 +7,7 @@
   template:
     src: files/docker/z2mqtt/docker-compose.yml
     dest: /home/dtm/docker/z2mqtt/docker-compose.yml
-    
+
 - name: Copy env source templates for z2mqtt
   template:
     src: files/docker/z2mqtt/.env

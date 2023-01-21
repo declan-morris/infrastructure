@@ -13,13 +13,13 @@ collections:
 #https://github.com/meisnate12/Plex-Meta-Manager-Configs/blob/67f09923877696e3d75ffd565a752641f64b952c/twhiting9275/starwars.yml
   "Star Wars: by timeline":
     template: {name: Collection, movie: "1893, 1894, 12180, 1895, 11, 1891, 1892, 140607, 181808, 181812"}
-    summary: This is a collection of main star wars movies, plus The Clone Wars animated movie, arranged by when events took place   
+    summary: This is a collection of main star wars movies, plus The Clone Wars animated movie, arranged by when events took place
     collection_order: alpha
     url_poster: https://www.themoviedb.org/t/p/original/jGNtfNeFRmJBIwL1exFteZhedOr.jpg
 
   James Bond:
     template: {name: Collection, movie: "36557, 10764, 37724, 206647, 370172"}
-    summary: This is a collection of latest James Bond movies   
+    summary: This is a collection of latest James Bond movies
     collection_order: alpha
     url_poster: https://www.themoviedb.org/t/p/w600_and_h900_bestv2/HORpg5CSkmeQlAolx3bKMrKgfi.jpg
 
@@ -121,7 +121,7 @@ collections:
   Thor:
     template: {name: Collection, collection: 131296}
   Toy Story:
-    template: {name: Collection, collection: 10194}  
+    template: {name: Collection, collection: 10194}
   Unbreakable:
     template: {name: Collection}
     imdb_list: https://www.imdb.com/list/ls022101006/
@@ -154,18 +154,18 @@ metadata:
     file_poster: /config/posters/StarWars/4 New Hope.png
 
   The Empire Strikes Back:
-    sort_title: Star Wars 6    
+    sort_title: Star Wars 6
     file_poster: /config/posters/StarWars/5 The Empire Strikes Back.png
 
   Return of the Jedi:
-    sort_title: Star Wars 7    
+    sort_title: Star Wars 7
     file_poster: /config/posters/StarWars/6 Return of the Jedi.png
 
-  "Star Wars: The Force Awakens":    
+  "Star Wars: The Force Awakens":
     sort_title: Star Wars 8
     file_poster: /config/posters/StarWars/7 The Force Awakens.png
 
-  "Star Wars: The Last Jedi":    
+  "Star Wars: The Last Jedi":
     sort_title: Star Wars 9
     file_poster: /config/posters/StarWars/8 The Last Jedi.png
 

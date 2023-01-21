@@ -1,4 +1,4 @@
-security_ssh_allowed_users: 
+security_ssh_allowed_users:
   - dtm
 
 security_sudoers_passwordless:

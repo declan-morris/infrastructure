@@ -7,7 +7,7 @@
   template:
     src: files/docker/plex/docker-compose.yml
     dest: /home/dtm/docker/plex/docker-compose.yml
-    
+
 - name: Copy env source templates for plex
   template:
     src: files/docker/plex/.env

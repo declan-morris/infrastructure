@@ -7,7 +7,7 @@
   template:
     src: files/docker/metrics/docker-compose.yml
     dest: /home/dtm/docker/compose-metrics/docker-compose.yml
-    
+
 - name: Copy env source templates for metrics
   template:
     src: files/docker/metrics/.env
@@ -25,7 +25,7 @@
   pip:
     name: docker-compose
 
-- name: Create and start metrics services 
+- name: Create and start metrics services
   docker_compose:
     project_src: /home/dtm/docker/compose-metrics
   register: output

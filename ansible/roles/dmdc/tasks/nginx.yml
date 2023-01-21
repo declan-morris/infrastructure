@@ -1,15 +1,15 @@
 ---
 
 - name: add nginx apt-key
-  apt_key: 
-    url: http://nginx.org/keys/nginx_signing.key 
-    state: present 
+  apt_key:
+    url: http://nginx.org/keys/nginx_signing.key
+    state: present
   become: true
 
 - name: Add nginx stable repository from PPA and install its signing key on Ubuntu target
   apt_repository:
     repo: deb https://nginx.org/packages/ubuntu/ {{ ansible_distribution_release }} nginx
-  become: true  
+  become: true
 
 - name: Update the repository cache and update package "nginx" to latest version
   apt:
@@ -40,14 +40,14 @@
     state: absent
 
 - name: copy options-ssl-nginx.conf
-  copy: 
+  copy:
     src: /usr/lib/python3/dist-packages/certbot_nginx/_internal/tls_configs/options-ssl-nginx.conf
     dest: /etc/letsencrypt/options-ssl-nginx.conf
     remote_src: yes
 
 - name: Restart nginx
-  service: 
-    name: nginx 
+  service:
+    name: nginx
     state: restarted
   # when: nginxConfigChanged is changed
   ignore_errors: yes

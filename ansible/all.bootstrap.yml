@@ -17,7 +17,7 @@
     become: true
 
   - name: import github ssh keys
-    authorized_key:  
+    authorized_key:
       user: "dtm"
       state: present
       key: https://github.com/declan-morris.keys

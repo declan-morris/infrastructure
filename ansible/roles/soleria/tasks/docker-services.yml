@@ -7,7 +7,7 @@
   template:
     src: files/docker/services/docker-compose.yml
     dest: /home/dtm/docker/services/docker-compose.yml
-    
+
 - name: Copy env source templates for media
   template:
     src: files/docker/services/.env
@@ -45,7 +45,7 @@
     group: dtm
     mode: '0660'
 
-- name: Create and start media services 
+- name: Create and start media services
   docker_compose:
     project_src: /home/dtm/docker/services
     pull: yes
@@ -56,7 +56,7 @@
     path: /opt/docker/traefik/acme.json
     mode: '0600'
   become: yes
-  
+
 - name: Prune docker images
   docker_prune:
     images: true

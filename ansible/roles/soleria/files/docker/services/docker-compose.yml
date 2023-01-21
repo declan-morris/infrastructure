@@ -95,7 +95,7 @@ services:
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
-      - TZ=${TZ} 
+      - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/hydra:/config
       - ${DOCKERDIR}/shared:/shared
@@ -305,7 +305,7 @@ services:
     network_mode: service:nordvpn #8686
     depends_on:
       - nordvpn
-    restart: unless-stopped      
+    restart: unless-stopped
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -427,4 +427,4 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - PMM_RUN=TRUE 
+      - PMM_RUN=TRUE

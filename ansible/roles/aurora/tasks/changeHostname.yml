@@ -1,10 +1,10 @@
 - name: Update Hostname
   hostname:
-    name: aurora
+    name: asimov
     use: debian
 
-- name: update hosts file
-  replace:
-    path: /etc/hosts
-    regexp: 'cloudinit'
-    replace: aurora
+# - name: update hosts file
+#   replace:
+#     path: /etc/hosts
+#     regexp: 'cloudinit'
+#     replace: aurora

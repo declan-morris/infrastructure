@@ -34,6 +34,12 @@
     dest: /etc/nginx/conf.d/whoami.conf
   register: nginxConfigChanged
 
+- name: Copy dandd nginx conf file
+  template:
+    src: files/dandd.conf
+    dest: /etc/nginx/conf.d/dandd.conf
+  register: nginxConfigChanged
+
 - name: remove default site
   file:
     path: /etc/nginx/sites-enabled/default

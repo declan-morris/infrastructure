@@ -2,7 +2,6 @@ version : "3.8"
 
 networks:
   reverseProxy: {}
-  tandoor: {}
 
 volumes:
   nginx_config: {}
@@ -66,7 +65,7 @@ services:
       - PUID=${PUID}
       - PGID=${PGID}
       - TZ=${TZ}
-      - TRANSMISSION_WEB_HOME=/combustion-release/
+      # - TRANSMISSION_WEB_HOME=/combustion-release/
       - USER=${TRANSMISSIONUSER}
       - PASS=${TRANSMISSIONPASS}
     volumes:
@@ -259,9 +258,9 @@ services:
       - TZ=${TZ}
     volumes:
       - ${DOCKERDIR}/bazarr:/config
-      - /storage/data:/data
-      - /data/movies:/movies
-      - /data/tvshows:/tv
+      - /storage/data:/data #wrong location
+      - /data/movies:/movies #wrong location
+      - /data/tvshows:/tv #wrong location
     network_mode: service:nordvpn #6767
     depends_on:
       - nordvpn
@@ -358,6 +357,7 @@ services:
       - 13378:80
     volumes:
       - /storage/data/media/audiobooks:/audiobooks
+      - /storage/data/media/podcasts:/podcasts
       - ${DOCKERDIR}/audiobookshelf/config:/config
       - ${DOCKERDIR}/audiobookshelf/metadata
     labels:

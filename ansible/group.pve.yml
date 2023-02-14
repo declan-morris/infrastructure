@@ -1,110 +1,108 @@
 ---
 
+# - hosts: pve
+#   tasks:
+#   - name: ensure dtm present
+#     user:
+#       name: dtm
+#       groups: sudo
+#       append: true
+#     become: true
+
+#   - name: Install sudo
+#     apt:
+#       name: sudo
+#       state: latest
+
+#   - name: Allow 'dtm' group to have passwordless sudo
+#     lineinfile:
+#       dest: /etc/sudoers
+#       state: present
+#       regexp: "^%dtm"
+#       line: "%dtm ALL=(ALL) NOPASSWD: ALL"
+#       validate: "visudo -cf %s"
+#     become: true
+
+#   - name: import github ssh keys
+#     authorized_key:
+#       user: "dtm"
+#       state: present
+#       key: https://github.com/declan-morris.keys
+#     become: true
+
+#   - name: create /mnt points
+#     file:
+#       dest: "{{ item.path }}"
+#       state: directory
+#       owner: nobody
+#       group: nogroup
+#       mode: 0777
+#     with_items:
+#       - "{{ snapraid_parity_disks }}"
+#       - "{{ snapraid_data_disks }}"
+#     become: true
+
+#   - name: mount disks
+#     mount:
+#       name: "{{ item.path }}"
+#       src: "{{ item.diskbyid }}"
+#       fstype: "{{ item.fs }}"
+#       opts: "{{ item.opts }}"
+#       state: present
+#     with_items:
+#       - "{{ snapraid_parity_disks }}"
+#       - "{{ snapraid_data_disks }}"
+#     become: true
+
+#   - name: create /storage
+#     file:
+#       dest: "/storage"
+#       state: directory
+#       owner: nobody
+#       group: nogroup
+#       mode: 0777
+#     become: true
+
+#   - name: mount mergerfs array
+#     mount:
+#       name: "{{ item.mountpoint }}"
+#       src: "{{ item.source }}"
+#       opts: "{{ item.opts }}"
+#       fstype: "{{ item.fs }}"
+#       state: present
+#     with_items:
+#       - "{{ fstab_mergerfs }}"
+#     become: true
+
+# - hosts: pve
+#   remote_user: dtm
+#   roles:
+#     - role: proxmox
+#       become: yes
+#     - role: grog.package
+#       become: yes
+
+# - hosts: pve
+#   remote_user: dtm
+#   roles:
+#     # - role: rossmcdonald.telegraf
+#     #   become: true
+#     - role: geerlingguy.docker
+#       become: true
+#     - role: ironicbadger.snapraid
+#       become: true
+#     - role: stefangweichinger.ansible_rclone
+
 - hosts: pve
-  tasks:
-  - name: ensure dtm present
-    user:
-      name: dtm
-      groups: sudo
-      append: true
-    become: true
-
-  - name: Install sudo
-    apt:
-      name: sudo
-      state: latest
-
-  - name: Allow 'dtm' group to have passwordless sudo
-    lineinfile:
-      dest: /etc/sudoers
-      state: present
-      regexp: "^%dtm"
-      line: "%dtm ALL=(ALL) NOPASSWD: ALL"
-      validate: "visudo -cf %s"
-    become: true
-
-  - name: import github ssh keys
-    authorized_key:
-      user: "dtm"
-      state: present
-      key: https://github.com/declan-morris.keys
-    become: true
-
-  - name: create /mnt points
-    file:
-      dest: "{{ item.path }}"
-      state: directory
-      owner: nobody
-      group: nogroup
-      mode: 0777
-    with_items:
-      - "{{ snapraid_parity_disks }}"
-      - "{{ snapraid_data_disks }}"
-    become: true
-
-  - name: mount disks
-    mount:
-      name: "{{ item.path }}"
-      src: "{{ item.diskbyid }}"
-      fstype: "{{ item.fs }}"
-      opts: "{{ item.opts }}"
-      # change to 'mounted' to auto mount
-      state: present
-      # state: mounted?
-    with_items:
-      - "{{ snapraid_parity_disks }}"
-      - "{{ snapraid_data_disks }}"
-    become: true
-
-  - name: create /storage
-    file:
-      dest: "/storage"
-      state: directory
-      owner: nobody
-      group: nogroup
-      mode: 0777
-    become: true
-
-  - name: mount mergerfs array
-    mount:
-      name: "{{ item.mountpoint }}"
-      src: "{{ item.source }}"
-      opts: "{{ item.opts }}"
-      fstype: "{{ item.fs }}"
-      state: present
-    with_items:
-      - "{{ fstab_mergerfs }}"
-    become: true
-
-- hosts: pve
-  remote_user: dtm
   roles:
-    - role: proxmox
-      become: yes
-    - role: grog.package
-      become: yes
-
-- hosts: pve
-  remote_user: dtm
-  roles:
-    # - role: rossmcdonald.telegraf
+    # - role: plex
     #   become: true
-    - role: geerlingguy.docker
-      become: true
-    - role: ironicbadger.snapraid
-      become: true
-    - role: stefangweichinger.ansible_rclone
-
-- hosts: pve
-  roles:
-    - role: plex
-      become: true
-    - role: soleria
+    # - role: soleria
 #     - role: geerlingguy.nfs
 #       become: true
-    - role: zigbee2mqtt
-      become: true
-    - role: artis3n.tailscale
+    # - role: zigbee2mqtt
+    #   become: true
+    - role: network
+    # - role: artis3n.tailscale
       # vars:
       #   tailscale_args: "--advertise-exit-node --advertise-routes=192.168.86.0/24" # this has been fucking the network settings every time, disabling for now breaks even SSH??
-      become: yes

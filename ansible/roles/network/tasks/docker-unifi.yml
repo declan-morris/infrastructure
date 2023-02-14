@@ -1,0 +1,24 @@
+- name: Creates docker directory for unifi
+  file:
+    path: /home/dtm/docker/unifi
+    state: directory
+
+- name: Copy compose source templates for unifi
+  template:
+    src: files/docker/unifi/docker-compose.yml
+    dest: /home/dtm/docker/unifi/docker-compose.yml
+
+- name: Copy env source templates for unifi
+  template:
+    src: files/docker/unifi/.env
+    dest: /home/dtm/docker/unifi/.env
+
+- name: Create and start unifi unifi
+  docker_compose:
+    project_src: /home/dtm/docker/unifi
+    pull: yes
+  register: output
+
+- name: Prune docker images
+  docker_prune:
+    images: true

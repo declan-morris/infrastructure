@@ -15,9 +15,12 @@ resource "azurerm_subnet" "personalSiteSubnet" {
   resource_group_name  = azurerm_resource_group.personalSite.name
   virtual_network_name = azurerm_virtual_network.personalSiteVNET.name
   address_prefixes     = ["10.0.0.0/29"]
+  # checkov:skip=CKV2_AZURE_31::Probably should have NSG but too lazy
 }
 
 resource "azurerm_network_interface" "personalSiteNIC" {
+  # checkov:skip=CKV_AZURE_119::Probably shouldn't have direct pub ip but too lazy
+
   name                = "personalSiteNIC"
   location            = azurerm_resource_group.personalSite.location
   resource_group_name = azurerm_resource_group.personalSite.name

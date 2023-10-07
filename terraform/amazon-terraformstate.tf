@@ -59,34 +59,6 @@ resource "aws_iam_user_policy" "keyCreation" {
 EOF
 }
 
-resource "aws_iam_user_policy" "keyManagement" {
-  name = "KeyManagement"
-  user = aws_iam_user.terraform.name
-  # checkov:skip=CKV_AWS_40:User/role management not an issue on small personal aws
-
-  policy = <<EOF
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-          "Effect": "Allow",
-          "Action": [
-            "kms:DescribeKey",
-            "kms:GetKeyPolicy",
-            "kms:GetKeyRotationStatus",
-            "kms:ListResourceTags",
-            "kms:ScheduleKeyDeletion",
-            "kms:GenerateDataKey",
-            "kms:Decrypt",
-            "kms:EnableKeyRotation"
-          ],
-          "Resource": "${aws_kms_key.tfstate.arn}"
-        }
-    ]
-}
-EOF
-}
-
 resource "aws_iam_user_policy" "iam" {
   # checkov:skip=CKV_AWS_40:User/role management not an issue on small personal aws
   name = "IAMManagement"
@@ -138,29 +110,12 @@ resource "aws_iam_user_policy" "UserPolicy" {
 EOF
 }
 
-resource "aws_kms_key" "tfstate" {
-  description             = "This key is used to encrypt terraform state bucket objects"
-  deletion_window_in_days = 10
-  enable_key_rotation     = true
-  # checkov:skip=CKV2_AWS_64:Not defining a kms policy
-}
-
 resource "aws_s3_bucket" "tfstate" {
   bucket = "terraformstate-dtm"
   # checkov:skip=CKV_AWS_18:Don't want to start infinite log buckets
   # checkov:skip=CKV_AWS_144:Replication will not be enabled for the state file
   # checkov:skip=CKV2_AWS_62:Don't want notifications
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "tfstate" {
-  bucket = aws_s3_bucket.tfstate.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      kms_master_key_id = aws_kms_key.tfstate.arn
-      sse_algorithm     = "aws:kms"
-    }
-  }
+  # checkov:skip=CKV_AWS_145:Not paying for KMS
 }
 
 resource "aws_s3_bucket_public_access_block" "state_public_block" {

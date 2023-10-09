@@ -13,8 +13,16 @@
     src: files/docker/plex/.env
     dest: /home/dtm/docker/plex/.env
 
-- name: Create and start plex services
-  docker_compose:
-    project_src: /home/dtm/docker/plex
-    pull: yes
-  register: output
+# - name: Create and start plex services
+#   docker_compose:
+#     project_src: /home/dtm/docker/plex
+#     pull: yes
+#   register: output
+
+- name: Create cronjob to restart Plex
+  cron:
+    name: "Restart Plex"
+    weekday: "*"
+    hour: 8
+    minute: 0
+    job: "docker-compose -f /home/dtm/docker/plex/docker-compose.yml --env-file /home/dtm/docker/plex/.env restart"

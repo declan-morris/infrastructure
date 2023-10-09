@@ -95,8 +95,8 @@
 
 - hosts: pve
   roles:
-    # - role: plex
-    #   become: true
+    - role: plex
+      become: true
     # - role: soleria
 #     - role: geerlingguy.nfs
 #       become: true

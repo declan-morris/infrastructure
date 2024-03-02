@@ -7,16 +7,16 @@ volumes:
   nginx_config: {}
 
 services:
-## to check if it's working curl https://api.nordvpn.com/vpn/check/full
-  nordvpn:
-    container_name: nordvpn
-    image: bubuntux/nordlynx:latest
-    restart: always
-    networks:
-      - reverseProxy
+  gluetun:
+    container_name: "gluetun"
+    image: qmcgaw/gluetun
     cap_add:
       - NET_ADMIN
-      - SYS_MODULE
+    environment:
+      - VPN_SERVICE_PROVIDER=protonvpn
+      - OPENVPN_USER=
+      - OPENVPN_PASSWORD=
+      - SERVER_CITIES=London,Manchester
     ports:
       - 9117:9117 #jacket
       - 7878:7878 #radarr
@@ -30,10 +30,6 @@ services:
       - 8686:8686 #lidarr
       - 6767:6767 #bazarr
       - 9696:9696 #prowlarr
-    environment:
-      - PRIVATE_KEY=${NORDVPNPRIVATE_KEY}
-      - TZ=${TZ}
-      - NET_LOCAL=${LOCALNETWORKCIDR}
 
   jackett:
     image: linuxserver/jackett:latest
@@ -44,9 +40,9 @@ services:
       - ${DOCKERDIR}/shared:/shared
       - /storage/data/torrents/watch:/downloads # this is for adhoc torrent files downloaded via jackett interface rather than arr's
       - "/etc/localtime:/etc/localtime:ro"
-    network_mode: service:nordvpn #9117
+    network_mode: service:gluetun #9117
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -73,15 +69,9 @@ services:
       - /storage/data/torrents/downloads:/data/torrents/downloads
       - /storage/data/torrents/watch:/watch
       - /etc/localtime:/etc/localtime:ro
-    network_mode: service:nordvpn #9091
+    network_mode: service:gluetun #9091
     depends_on:
-      - nordvpn
-    healthcheck: # TODO: look to see if auto shutoff is possible?
-      test: if [ `curl https://api.nordvpn.com/vpn/check/full | jq -r .status` ==  "Protected" ]; then echo "Protected"; exit 0; else echo "Unprotected"; exit 1; fi
-      interval: 1m30s
-      timeout: 10s
-      retries: 3
-      start_period: 80s
+      - gluetun
     labels:
       - traefik.enable=true
       - traefik.http.routers.transmission.rule=Host(`transmission.soleria.net`)
@@ -98,9 +88,9 @@ services:
     volumes:
       - ${DOCKERDIR}/hydra:/config
       - ${DOCKERDIR}/shared:/shared
-    network_mode: service:nordvpn #5076
+    network_mode: service:gluetun #5076
     depends_on:
-      - nordvpn
+      - gluetun
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -117,9 +107,9 @@ services:
       - /storage/data/usenet/downloads/complete:/data/usenet/downloads/complete
       - /storage/data/usenet/downloads/incomplete:/data/usenet/downloads/incomplete
     restart: always
-    network_mode: service:nordvpn #8080
+    network_mode: service:gluetun #8080
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -139,9 +129,9 @@ services:
       - ${DOCKERDIR}/shared:/shared
       - /storage/data:/data
       - "/etc/localtime:/etc/localtime:ro"
-    network_mode: service:nordvpn #8989
+    network_mode: service:gluetun #8989
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -161,9 +151,9 @@ services:
       - ${DOCKERDIR}/shared:/shared
       - /storage/data:/data
       - "/etc/localtime:/etc/localtime:ro"
-    network_mode: service:nordvpn #7878
+    network_mode: service:gluetun #7878
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -183,9 +173,9 @@ services:
       - ${DOCKERDIR}/shared:/shared
       - /storage/data:/data
       - "/etc/localtime:/etc/localtime:ro"
-    network_mode: service:nordvpn #7877
+    network_mode: service:gluetun #7877
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -202,9 +192,9 @@ services:
     restart: always
     volumes:
       - ${DOCKERDIR}/prowlarr:/config
-    network_mode: service:nordvpn #9696
+    network_mode: service:gluetun #9696
     depends_on:
-      - nordvpn
+      - gluetun
     environment:
       - PUID=${PUID}
       - PGID=${PGID}
@@ -261,9 +251,9 @@ services:
       - /storage/data:/data #wrong location
       - /data/movies:/movies #wrong location
       - /data/tvshows:/tv #wrong location
-    network_mode: service:nordvpn #6767
+    network_mode: service:gluetun #6767
     depends_on:
-      - nordvpn
+      - gluetun
     restart: unless-stopped
     labels:
       - traefik.enable=true
@@ -301,9 +291,9 @@ services:
     volumes:
       - ${DOCKERDIR}/lidarr:/config
       - /storage/data:/data
-    network_mode: service:nordvpn #8686
+    network_mode: service:gluetun #8686
     depends_on:
-      - nordvpn
+      - gluetun
     restart: unless-stopped
     environment:
       - PUID=${PUID}

@@ -54,20 +54,6 @@ resource "cloudflare_record" "declanmorris-comWildcardRecord" {
   proxied = false
 }
 
-resource "cloudflare_record" "spf" {
-  zone_id = data.cloudflare_zone.declanmorris-com.zone_id
-  name    = "@"
-  value   = "v=spf1 -all"
-  type    = "TXT"
-}
-
-resource "cloudflare_record" "dkim" {
-  zone_id = data.cloudflare_zone.declanmorris-com.zone_id
-  name    = "*._domainkey"
-  value   = "v=DKIM1; p="
-  type    = "TXT"
-}
-
 resource "cloudflare_record" "dmarc" {
   zone_id = data.cloudflare_zone.declanmorris-com.zone_id
   name    = "_dmarc"

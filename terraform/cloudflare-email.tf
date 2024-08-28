@@ -43,7 +43,7 @@ variable "dkim" {
 resource "cloudflare_record" "dkim" {
   for_each = var.dkim
   zone_id  = data.cloudflare_zone.declanmorris-com.zone_id
-  name     = "${each.key}.declanmorris.com" #change this
+  name     = "${each.key}.${data.cloudflare_zone.declanmorris-com.name}" 
   value    = each.value
   type     = "CNAME"
 }
